@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;600;700&display=swap');
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('../img/fondo-index.jpg') no-repeat;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+}
+
+.logo{
+    font-size: 2em;
+    color: #fff;
+    user-select: none;
+}
+
+.menu{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    /* font-size: 1.1em; */
+    color: #fff;
+    text-decoration: none;
+    /* font-weight: 500; */
+    margin-left: 20px; 
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+ 
+}
+
+.btnIndex{
+    width: 45%;
+    height: 50px;
+    align-self: center;
+    justify-self: center;
+    background: transparent;
+    border: 2px solid #fff;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #fff;
+    font-weight: 500;
+    margin-left: 40px;
+    transition: .5s;
+}
+
+.btnIndex:hover{
+    background-color: #fff;
+    color: #162938;
+}
+
+.contenedorInicioRegistro{
+    position: relative;
+    width: 400px;
+    height: 440px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 25%;
+    left: 40%;
+}
+
+.contenedorInicioRegistro .formaCaja{
+    width: 100%;
+    padding: 40px;
+}
+
+.contenedorInicioRegistro .icon-close{
+    position: relative;
+    top:0;
+    right: 0;
+    width: 45px;
+    height: 45px;
+    margin-left: 95%;
+    font-size: 2em;
+    color: #162938;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.formaCaja h2{
+    font-size: 2em;
+    color: #162938;
+    text-align: center;
+}
+
+.cajaEntradas{
+    position: relative;
+    width:100%;
+    height: 50px;
+    border-bottom: 2px solid #162938;
+    margin: 30px 0;
+}
+
+.cajaEntradas label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    font-weight: 500;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.cajaEntradas input:focus~label,
+.cajaEntradas input:valid~label{
+    top: -5px;
+}
+
+.cajaEntradas input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    color: #162938;
+    font-weight: 600;
+    padding: 0 35px 0 5px;
+}
+
+.cajaEntradas .icon{
+    position: absolute;
+    right: 8px;
+    font-size: 1.2em;
+    color: #162938;
+    line-height: 57px;
+}
+
+.recordarOlvidar{
+    font-size: .9em;
+    color: #162938;
+    font-weight: 500;
+    margin: -15px 0 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.recordarOlvidar label input{
+    accent-color: #162938;
+    margin-right: 3px;
+}
+
+.recordarOlvidar a{
+    color: #162938;
+    text-decoration: none;
+}
+
+.recordarOlvidar a:hover{
+    text-decoration: underline;
+}
+
+.btn{
+    width: 100%;
+    height: 45px;
+    background: #162938;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.registrarme{
+    font-size: .9em;
+    color: #162938;
+    text-align: center;
+    font-weight: 500;
+    margin: 25px 0 10px;
+}
+
+.registrarme p a {
+    color: #162938;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.registrarme p a:hover{
+    text-decoration: underline;
+}
+
