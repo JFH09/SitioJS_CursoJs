@@ -30,7 +30,7 @@ function buscarUsuLogueado() {
   }
 
   if (datosUsuEncontrados) {
-    alert("Se encontraron datos..." + JSON.parse(usuarioLogueado)).email;
+    alert("Se encontraron datos..." + JSON.parse(usuarioLogueado));
     Swal.fire({
       title: "Se Inicio Sesion con datos almacenados!",
       text: "Bienvenido " + usuarioLogueado,
