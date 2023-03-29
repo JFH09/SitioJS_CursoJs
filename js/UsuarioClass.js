@@ -1,68 +1,78 @@
 class Usuario {
   constructor(
-    idUsuario,
-    contraUsuario,
+    id,
+    pass,
     nombres,
     apellidos,
-    identificacionUsu,
+    email,
     edad,
-    genero,
+    profesion,
+    comidaFavorita,
+    telefono,
     ...listaUsuarios
   ) {
-    this.idUsuario = idUsuario;
-    this.contraUsuario = contraUsuario;
+    this.id = id;
+    this.pass = pass;
     this.nombres = nombres;
     this.apellidos = apellidos;
-    this.identificacionUsu = identificacionUsu;
+    this.email = email;
     this.edad = edad;
-    this.genero = genero;
+    this.profesion = profesion;
+    this.comidaFavorita = comidaFavorita;
+    this.telefono = telefono;
     this.listaUsuarios = listaUsuarios;
   }
 
-  iniciarSesion(idUsuario, contraUsuario, ...listaUsuarios) {
-    console.log("Buscando usuario....");
+  iniciarSesion(email, pass, recordarDatos, ...listaUsuarios) {
+    console.log(
+      "Buscando usuario...." +
+        email +
+        ",,,," +
+        pass +
+        "guardarUsuario?" +
+        recordarDatos
+    );
 
     const encontrar = listaUsuarios.find(
-      (i) => i.id == idUsuario && i.pass == contraUsuario
+      (i) => i.email == email && i.pass == pass
     );
 
     if (encontrar) {
-      console.log("Encontrar es => " + encontrar.id + encontrar.pass);
-      alert(" Puede iniciar sesion, se encontro el usuario ");
+      console.log("Encontrar es => " + encontrar.email + encontrar.pass);
+      if (recordarDatos) {
+        let infoUsu = { email: email, pass: pass };
+        localStorage.setItem("usuarioAutoIni", JSON.stringify(infoUsu));
+      }
+
+      Swal.fire({
+        title: "Se Inicio Sesion correctamente!",
+        text: "Bienvenido " + encontrar.id,
+        icon: "success",
+        confirmButtonText: "Ok",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "../pages/infoUsuarios.html";
+        }
+      });
     } else {
       alert("No te encuentras registrado, registrate ahora!!! ");
     }
   }
 
-  registrarUsuario(
-    idUsuario,
-    contraUsuario,
-    nombres,
-    apellidos,
-    identificacionUsu,
-    edad,
-    genero
-  ) {
-    console.log(
-      "Registrando usuario...." +
-        idUsuario +
-        contraUsuario +
-        nombres +
-        apellidos +
-        edad
-    );
-
+  registrarUsuario(datos, ...listaUsuarios) {
+    console.log(listaUsuarios);
+    console.log(datos);
     listaUsuarios.push({
-      id: idUsuario,
-      pass: contraUsuario,
-      nombres: nombres,
-      apellidos: apellidos,
-      edad: edad,
-      identificacionUsu: identificacionUsu,
-      genero: genero,
+      id: datos.id,
+      pass: datos.pass,
+      nombres: datos.nombres,
+      apellidos: datos.apellidos,
+      edad: parseInt(datos.edad),
+      email: datos.email,
+      profesion: datos.profesion,
+      comidaFavorita: datos.comidaFavorita,
+      telefono: parseInt(datos.telefono),
     });
-
-    alert("Se registro correctamente el usuario!!!!");
   }
 
   imprimirListaUsuarios(...listaUsuarios) {
@@ -78,9 +88,9 @@ class Usuario {
           " " +
           x.edad +
           " " +
-          x.identificacionUsu +
+          x.email +
           " " +
-          x.genero
+          x.telefono
       )
     );
   }

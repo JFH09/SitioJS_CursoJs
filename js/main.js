@@ -1,89 +1,186 @@
 /*
-    No se contecta aun con el DOM!!!!!! es solo la parte de como funcionaria....
-    aun no tengo una idea concreta de a donde quiero dirigir la pagina que se va 
-    a construir, por lo tanto decidi realizar algo para ir incluyendo los temas vistos en clase 
-    y terminar de concretar la idea proximamente
+     se contecta aun con el DOM, las opciones que aparecen en el alert son las que aun no se 
+     han desarrollado por completo o estan en construcción
 
-    por el momento tengo pensado en hacer una logica de inicio de sesion, registro y
-    si entra que en una pagina se vayan observando los usuarios pero aun no tengo una idea en concreto
+     el login se puede realizar, el registro tambien
+
+     en el login si hacen el check de recordar los datos, se guardan los datos en el 
+     local storage y la proxima vez que accedas al login se iniciara sesion automaticamente 
+     y te redireccionara a la pagina donde se encontraran la información de todos los usuarios
+
+     la pagina en mencion aun no esta desarrollada, la idea es que con la información que se brinda en 
+     el formulario, se ,uestre la lista total de los usuarios en donde 
+     para cada usuario se le recomienden ya sea alguna comida, se le diga donde poder ver la pelicula 
+     que ingreso, puede que se me ocurra otra idea con la info que se tiene, esta parte se realizara con 
+     peticiones fetch a una api... y de igual forma, el ideal es que se pueda eliminar o editar cualquier usuario 
+     de la lista.
+
+
 */
+
+function buscarUsuLogueado() {
+  let datosUsuEncontrados = false;
+  alert("buscando usu logeado!!!");
+  const usuarioLogueado = localStorage.getItem("usuarioAutoIni");
+  alert(usuarioLogueado);
+  if (usuarioLogueado != null) {
+    datosUsuEncontrados = true;
+  } else {
+    datosUsuEncontrados = false;
+  }
+
+  if (datosUsuEncontrados) {
+    alert("Se encontraron datos..." + JSON.parse(usuarioLogueado)).email;
+    Swal.fire({
+      title: "Se Inicio Sesion con datos almacenados!",
+      text: "Bienvenido " + usuarioLogueado,
+      icon: "success",
+      confirmButtonText: "Ok",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "../pages/infoUsuarios.html";
+      }
+    });
+  } else {
+    alert("no se encontro usuario logueado...");
+    do {
+      let opc = parseInt(
+        prompt(
+          "Elija una opcion...\n" +
+            "3) VER LISTA USUARIOS !!!!! \n" +
+            "4) intento con fetch (EN CONSTRUCCIÓN)\n" + //sE TIENE PENSADO MANEJAR LOS DATOS POR ESTE MEDIO
+            "9) Salir\n"
+        )
+      );
+
+      if (opc == 3) {
+        user.imprimirListaUsuarios(...listaUsuarios);
+      }
+      if (opc == 4) {
+        alert("peticion fetch...");
+        fetch("../json/datos.json")
+          .then((response) => response.json())
+          .then((data) => console.log(data.listaUsuarios.id));
+      }
+      if (opc == 9) {
+        salir = true;
+      }
+    } while (salir != 1);
+  }
+}
 
 let salir = false;
 
 const listaUsuarios = [
   {
-    id: "pepito",
+    id: "pepito17",
     pass: "pepito2",
     nombres: "pepito",
     apellidos: "perez",
     edad: 17,
-    identificacionUsu: 123456,
-    genero: "masculino",
+    email: "pepitoPerez@gmail.com",
+    profesion: "conductor",
+    comidaFavorita: "pizza",
+    telefono: 22342432,
   },
 ];
+
 let user = new Usuario();
+let recordarDatos = false;
+/*Botones */
+const btnRegistrarme = document.querySelector("#btnRegistrarme");
+const btnEntrar = document.querySelector("#btnIniciarSesion");
+const btnRecorarDatos = document.getElementById("recordarDatos");
 
-do {
-  let opc = parseInt(
-    prompt(
-      "Elija una opcion...\n" +
-        "1) Iniciar Sesion\n" +
-        "2) Registrarme\n" +
-        "3) Ver lista de usurios\n" +
-        "9) Salir\n"
-    )
-  );
+btnEntrar.addEventListener("click", () => {
+  const emailLogin = document.getElementById("emailLogin").value;
+  const passLogin = document.getElementById("passLogin").value;
 
-  if (opc == 1) {
-    alert("Va a iniciar sesion...");
-    let idUsuario = prompt("Digite el nombre de usuario....");
-    let contraUsuario = prompt("Digite la contraseña...");
+  console.log("mandando..." + email + "-" + passLogin + "---" + recordarDatos);
+  user.iniciarSesion(emailLogin, passLogin, recordarDatos, ...listaUsuarios);
+});
 
-    user.iniciarSesion(idUsuario, contraUsuario, ...listaUsuarios);
+btnRecorarDatos.addEventListener("click", () => {
+  if (btnRecorarDatos.checked) {
+    recordarDatos = true;
+    Swal.fire({
+      title: "Se guardaran tus datos!",
+      text: "La proxima vez que ingreses se iniciara sesion automaticamente :)",
+      icon: "info",
+      confirmButtonText: "Cool",
+    });
+  } else {
+    recordarDatos = false;
+    Swal.fire({
+      title: "No se guardaran tus datos!",
+      text: "Tus datos no quedaran registrados :)",
+      icon: "info",
+      confirmButtonText: "De acuerdo",
+    });
   }
-  if (opc == 2) {
-    alert("va a registrarse...");
+});
 
-    let datos = pedirDatosRegistro();
-    console.log(datos);
-    user.registrarUsuario(
-      datos.id,
-      datos.pass,
-      datos.nombres,
-      datos.apellidos,
-      datos.identificacionUsu,
-      datos.edad,
-      datos.genero,
-      ...listaUsuarios
-    );
-  }
-  if (opc == 3) {
-    user.imprimirListaUsuarios(...listaUsuarios);
-  }
-  if (opc == 9) {
-    salir = true;
-  }
-} while (salir != 1);
+btnRegistrarme.addEventListener("click", () => {
+  let datos = pedirDatosRegistro();
+  console.log(datos);
+
+  listaUsuarios.push({
+    id: datos.id,
+    pass: datos.pass,
+    nombres: datos.nombres,
+    apellidos: datos.apellidos,
+    edad: parseInt(datos.edad),
+    email: datos.email,
+    profesion: datos.profesion,
+    comidaFavorita: datos.comidaFavorita,
+    telefono: parseInt(datos.telefono),
+  });
+  Swal.fire({
+    title: "Se registro exitosamente el usuario!",
+    text: " :)",
+    icon: "success",
+    confirmButtonText: "ok",
+  });
+  console.log(listaUsuarios);
+  localStorage.setItem("listaUsuarios", JSON.stringify(listaUsuarios));
+  vaciarCampos();
+  //  user.registrarUsuario(datos, ...listaUsuarios);
+});
 
 function pedirDatosRegistro() {
   let datos = {};
 
-  let idUsuario = prompt("Digite el nombre de usuario....");
-  let contraUsuario = prompt("Digite la contraseña...");
-  let nombres = prompt("Digite sus nombres...");
-  let apellidos = prompt("Digite sus apellidos...");
-  let identificacionUsu = parseInt(prompt("Digita tu identificacion..."));
-  let edad = parseInt(prompt("Digita tu edad..."));
-  let genero = prompt("Digita tu genero...");
-
+  const nombres = document.getElementById("nombres").value;
+  const apellidos = document.getElementById("apellidos").value;
+  // const fotoPerfil FALRA AVERIGUAR COMO CAPTURAR LA IMAGEN....
+  const edad = document.getElementById("edad").value;
+  const telefono = document.getElementById("telefono").value;
+  const profesion = document.getElementById("profesion").value;
+  const comidaFavorita = document.getElementById("comidaFavorita").value;
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("contra").value;
   datos = {
-    id: idUsuario,
-    pass: contraUsuario,
+    id: nombres + edad,
+    pass: pass,
     nombres: nombres,
     apellidos: apellidos,
     edad: edad,
-    identificacionUsu: identificacionUsu,
-    genero: genero,
+    email: email,
+    profesion: profesion,
+    comidaFavorita: comidaFavorita,
+    telefono: telefono,
   };
   return datos;
+}
+
+function vaciarCampos() {
+  document.getElementById("nombres").value = "";
+  document.getElementById("apellidos").value = "";
+  // const fotoPerfil FALRA AVERIGUAR COMO CAPTURAR LA IMAGEN....
+  document.getElementById("edad").value = "";
+  document.getElementById("telefono").value = "";
+  document.getElementById("profesion").value = "";
+  document.getElementById("comidaFavorita").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("contra").value = "";
 }

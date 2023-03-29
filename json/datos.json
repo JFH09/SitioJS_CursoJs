@@ -1,0 +1,15 @@
+{
+   "listaUsuarios":[
+    {
+        "id": "pepito17",
+        "pass": "pepito2",
+        "nombres": "pepito",
+        "apellidos": "perez",
+        "edad": 17,
+        "email": "pepitoPerez@gmail.com",
+        "profesion": "conductor",
+        "comidaFavorita": "pizza",
+        "telefono": 22342432
+    }
+   ] 
+}

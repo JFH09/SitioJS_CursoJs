@@ -14,19 +14,19 @@
     <link rel="stylesheet" href="./css/styleFondo.css">
 </head>
 
-<body>
+<body onload="buscarUsuLogueado()">
 
     <header>
         <h2 class="logo">Logo</h2>
         <nav class="menu">
             <button class="btnIndex btnIniciarSesion" href="">Iniciar Sesión</button>
-            <button class="btnIndex btnRegistrarse" href="">Registrarse</button>
+
         </nav>
     </header>
 
 
     <div class="context">
-        <h1>Bienvenido a nuestra pagina inicia sesion o registrate para continuar</h1>
+        <h1>Bienvenido a nuestra pagina, inicia sesion para continuar</h1>
     </div>
 
 
@@ -43,7 +43,7 @@
             <li></li>
             <li></li>
         </ul>
-        <div class="contenedorInicioRegistro">
+        <div class="contenedor">
 
 
             <div class="formaCaja iniciarSesion">
@@ -51,31 +51,118 @@
                     <ion-icon name="close-circle-outline"></ion-icon>
                 </span>
                 <h2>Iniciar Sesion</h2>
-                <form action="">
+                <form action="#">
                     <div class="cajaEntradas">
                         <span class="icon">
                             <ion-icon name="mail-outline"></ion-icon>
                         </span>
 
-                        <input type="email" name="" id="" required>
+                        <input type="emailLogin" name="" id="emailLogin" required>
+                        <label for="emailLogin">Email</label>
+                    </div>
+                    <div class="cajaEntradas">
+                        <span class="icon">
+                            <ion-icon name="lock-closed-outline"></ion-icon>
+                        </span>
+                        <input type="password" name="passLogin" id="passLogin">
+                        <label for="passLogin">Contraseña</label>
+                    </div>
+                    <div class="recordarOlvidar">
+                        <label for="recordarDatos"><input type="checkbox" name="recordarDatos"
+                                id="recordarDatos">Recordar Datos</label>
+                        <a href="">Olvide mi contraseña</a>
+                    </div>
+
+                    <button type="button" class="btn" id="btnIniciarSesion">Iniciar Sesion</button>
+                    <div class="registrarme">
+                        <p> No tienes una cuenta?
+                            <a href="#" class="enlaceRegistroForm">Registrate</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+            <div class="formaCaja registro">
+                <!-- <span class="icon-close">
+                    <ion-icon name="close-circle-outline"></ion-icon>
+                </span> -->
+                <h2>Registro</h2>
+                <form action="#">
+                    <div class="cajaEntradas">
+                        <span class="icon">
+                            <ion-icon name="person-circle-outline"></ion-icon>
+                        </span>
+                        <input type="text" name="nombres" id="nombres" required>
+                        <label for="nombres">Nombres</label>
+                    </div>
+                    <div class="cajaEntradas">
+                        <span class="icon">
+                            <ion-icon name="person-circle-outline"></ion-icon>
+                        </span>
+                        <input type="text" name="apellidos" id="apellidos" required>
+                        <label for="apellidos">Apellidos</label>
+                    </div>
+                    <div class="cajaEntradas">
+                        <span class="icon">
+                            <ion-icon name="person-circle-outline"></ion-icon>
+                        </span>
+                        <!-- <input type="image" src="" alt="FotoPerfil"> -->
+                        <input type="file" name="fotoperfil" id="">
+                        <label for="fotoperfil">FotoPerfil</label>
+                    </div>
+                    <div class="cajaEntradas">
+                        <span class="icon">
+                            <ion-icon name="call-outline"></ion-icon>
+                        </span>
+
+
+                        <input type="number" name="edad" id="edad" required>
+                        <label for="edad">Edad</label>
+                    </div>
+                    <div class="cajaEntradas">
+                        <span class="icon">
+                            <ion-icon name="call-outline"></ion-icon>
+                        </span>
+                        <input type="number" name="telefono" id="telefono" required>
+                        <label for="telefono">Telefono</label>
+                    </div>
+                    <div class="cajaEntradas">
+                        <span class="icon">
+                            <ion-icon name="person-circle-outline"></ion-icon>
+                        </span>
+                        <input type="text" name="profesion" id="profesion" required>
+                        <label for="profesion">Profesión</label>
+                    </div>
+                    <div class="cajaEntradas">
+                        <span class="icon">
+                            <ion-icon name="person-circle-outline"></ion-icon>
+                        </span>
+                        <input type="text" name="comidaFavorita" id="comidaFavorita" required>
+                        <label for="comidaFavorita">Comida Favorita</label>
+                    </div>
+                    <div class="cajaEntradas">
+                        <span class="icon">
+                            <ion-icon name="mail-outline"></ion-icon>
+                        </span>
+                        <input type="email" name="email" id="email" required>
                         <label for="email">Email</label>
                     </div>
                     <div class="cajaEntradas">
                         <span class="icon">
                             <ion-icon name="lock-closed-outline"></ion-icon>
                         </span>
-                        <input type="password" name="contra" id="">
+                        <input type="password" name="contra" id="contra">
                         <label for="contra">Contraseña</label>
                     </div>
                     <div class="recordarOlvidar">
-                        <label for=""><input type="checkbox">Recordar Datos</label>
-                        <a href="">Olvide mi contraseña</a>
+                        <label for=""><input type="checkbox">Estoy de acuerdo con los terminos & condiciones</label>
+                        <a class="olvidar" href="">Olvide mi contraseña</a>
                     </div>
 
-                    <button type="submit" class="btn">Iniciar Sesion</button>
-                    <div class="registrarme">
-                        <p> No tienes una cuenta?
-                            <a href="#" class="registrarseLink">Registrate</a>
+                    <button type="button" class="btn" id="btnRegistrarme">Registrarme</button>
+                    <div class="iniciaSesion">
+                        <p> Ya tienes una cuenta?
+                            <a href="#" class="enlaceIniciarSesionForm">Inicia Sesion</a>
                         </p>
                     </div>
                 </form>
@@ -84,10 +171,13 @@
     </div>
 
     <!--Falta realizar el registro del usuario, contectar el DOM-->
-    <script src="./js/UsuarioClass.js"></script>
-    <script src="./js/main.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="./js/form.js"></script>
+    <script src="./js/UsuarioClass.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 
 </html>
