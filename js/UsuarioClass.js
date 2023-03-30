@@ -9,6 +9,7 @@ class Usuario {
     profesion,
     comidaFavorita,
     telefono,
+    img,
     ...listaUsuarios
   ) {
     this.id = id;
@@ -20,6 +21,7 @@ class Usuario {
     this.profesion = profesion;
     this.comidaFavorita = comidaFavorita;
     this.telefono = telefono;
+    this.img = img;
     this.listaUsuarios = listaUsuarios;
   }
 
@@ -72,6 +74,7 @@ class Usuario {
       profesion: datos.profesion,
       comidaFavorita: datos.comidaFavorita,
       telefono: parseInt(datos.telefono),
+      img: datos.img,
     });
   }
 
@@ -90,7 +93,9 @@ class Usuario {
           " " +
           x.email +
           " " +
-          x.telefono
+          x.telefono +
+          " " +
+          x.img
       )
     );
   }

@@ -9,7 +9,8 @@
         "email": "pepitoPerez@gmail.com",
         "profesion": "conductor",
         "comidaFavorita": "pizza",
-        "telefono": 22342432
+        "telefono": 22342432,
+        "img": "https://cdn-icons-png.flaticon.com/512/6073/6073874.png"
     }
    ] 
 }

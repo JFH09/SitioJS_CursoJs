@@ -82,6 +82,7 @@ const listaUsuarios = [
     profesion: "conductor",
     comidaFavorita: "pizza",
     telefono: 22342432,
+    img: "https://cdn-icons-png.flaticon.com/512/6073/6073874.png",
   },
 ];
 
@@ -134,6 +135,7 @@ btnRegistrarme.addEventListener("click", () => {
     profesion: datos.profesion,
     comidaFavorita: datos.comidaFavorita,
     telefono: parseInt(datos.telefono),
+    img: datos.img,
   });
   Swal.fire({
     title: "Se registro exitosamente el usuario!",
@@ -169,6 +171,7 @@ function pedirDatosRegistro() {
     profesion: profesion,
     comidaFavorita: comidaFavorita,
     telefono: telefono,
+    img: "https://cdn-icons-png.flaticon.com/512/6073/6073874.png",
   };
   return datos;
 }
