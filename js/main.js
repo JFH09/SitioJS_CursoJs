@@ -17,8 +17,9 @@
 
 
 */
-
+let respuesta = "";
 function buscarUsuLogueado() {
+  fetchDatos();
   let datosUsuEncontrados = false;
   alert("buscando usu logeado!!!");
   const usuarioLogueado = localStorage.getItem("usuarioAutoIni");
@@ -44,6 +45,7 @@ function buscarUsuLogueado() {
   } else {
     alert("no se encontro usuario logueado...");
     do {
+      console.log("respuesta", respuesta);
       let opc = parseInt(
         prompt(
           "Elija una opcion...\n" +
@@ -58,33 +60,25 @@ function buscarUsuLogueado() {
       }
       if (opc == 4) {
         alert("peticion fetch...");
-        fetch("../json/datos.json")
+        alert(fetchDatos());
+        console.log("se pidieron los datos...");
+
+        respuesta = fetch("./json/datos.json")
           .then((response) => response.json())
-          .then((data) => console.log(data.listaUsuarios.id));
+          .then((data) => console.log(data));
+        alert(respuesta);
       }
       if (opc == 9) {
         salir = true;
       }
     } while (salir != 1);
   }
+  console.log(respuesta);
 }
 
 let salir = false;
 
-const listaUsuarios = [
-  {
-    id: "pepito17",
-    pass: "pepito2",
-    nombres: "pepito",
-    apellidos: "perez",
-    edad: 17,
-    email: "pepitoPerez@gmail.com",
-    profesion: "conductor",
-    comidaFavorita: "pizza",
-    telefono: 22342432,
-    img: "https://cdn-icons-png.flaticon.com/512/6073/6073874.png",
-  },
-];
+let listaUsuarios = "";
 
 let user = new Usuario();
 let recordarDatos = false;
@@ -132,9 +126,9 @@ btnRegistrarme.addEventListener("click", () => {
     apellidos: datos.apellidos,
     edad: parseInt(datos.edad),
     email: datos.email,
-    profesion: datos.profesion,
-    comidaFavorita: datos.comidaFavorita,
-    telefono: parseInt(datos.telefono),
+    pelicula: datos.pelicula,
+    comida: datos.comida,
+    alcohol: datos.alcohol,
     img: datos.img,
   });
   Swal.fire({
@@ -145,6 +139,18 @@ btnRegistrarme.addEventListener("click", () => {
   });
   console.log(listaUsuarios);
   localStorage.setItem("listaUsuarios", JSON.stringify(listaUsuarios));
+
+  //Estoy implementando una forma para que se pueda modificar el json y dejar de manejar los datos de los usuarios desde el localStorage...
+  /*fetch("./json/datos.json", {
+    method: 'POST', // or 'PUT'
+    body: JSON.stringify(data), // data can be `string` or {object}!
+    headers:{
+      'Content-Type': 'application/json'
+    }
+  }).then(res => res.json())
+  .catch(error => console.error('Error:', error))
+  .then(response => console.log('Success:', response));*/
+
   vaciarCampos();
   //  user.registrarUsuario(datos, ...listaUsuarios);
 });
@@ -156,9 +162,9 @@ function pedirDatosRegistro() {
   const apellidos = document.getElementById("apellidos").value;
   // const fotoPerfil FALRA AVERIGUAR COMO CAPTURAR LA IMAGEN....
   const edad = document.getElementById("edad").value;
-  const telefono = document.getElementById("telefono").value;
-  const profesion = document.getElementById("profesion").value;
-  const comidaFavorita = document.getElementById("comidaFavorita").value;
+  const alcohol = document.getElementById("alcohol").value;
+  const pelicula = document.getElementById("pelicula").value;
+  const comida = document.getElementById("comida").value;
   const email = document.getElementById("email").value;
   const pass = document.getElementById("contra").value;
   datos = {
@@ -168,9 +174,9 @@ function pedirDatosRegistro() {
     apellidos: apellidos,
     edad: edad,
     email: email,
-    profesion: profesion,
-    comidaFavorita: comidaFavorita,
-    telefono: telefono,
+    pelicula: pelicula,
+    comida: comida,
+    alcohol: alcohol,
     img: "https://cdn-icons-png.flaticon.com/512/6073/6073874.png",
   };
   return datos;
@@ -181,9 +187,22 @@ function vaciarCampos() {
   document.getElementById("apellidos").value = "";
   // const fotoPerfil FALRA AVERIGUAR COMO CAPTURAR LA IMAGEN....
   document.getElementById("edad").value = "";
-  document.getElementById("telefono").value = "";
-  document.getElementById("profesion").value = "";
-  document.getElementById("comidaFavorita").value = "";
+  document.getElementById("alcohol").value = "";
+  document.getElementById("pelicula").value = "";
+  document.getElementById("comida").value = "";
   document.getElementById("email").value = "";
   document.getElementById("contra").value = "";
+}
+
+async function fetchDatos() {
+  let respuesta = fetch("./json/datos.json")
+    .then((response) => response.json())
+    .then((data) => {
+      for (let i in data) {
+        console.log(data[i]);
+        listaUsuarios = data[i];
+      }
+    });
+
+  return respuesta;
 }

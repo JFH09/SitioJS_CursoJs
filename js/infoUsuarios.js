@@ -3,39 +3,58 @@ const btnCerrarSesion = document.getElementById("cerrarSesion");
 btnCerrarSesion.addEventListener("click", () => {
   cerrarSesion();
 });
-
-const listaUsuarios = localStorage.getItem("listaUsuarios");
-console.log(listaUsuarios);
-const usuarios = JSON.parse(listaUsuarios);
-console.log(usuarios);
-console.log(usuarios.length);
-for (let i = 0; i < usuarios.length; i++) {
-  console.log(i);
-  alert(
-    "Informacion Usuarios: " +
-      "\n Id = " +
-      usuarios[i].id +
-      "\n nombres = " +
-      usuarios[i].nombres +
-      "\n apellidos = " +
-      usuarios[i].apellidos +
-      "\n edad = " +
-      usuarios[i].edad +
-      "\n comidaFavorita = " +
-      usuarios[i].comidaFavorita +
-      "\n telefono = " +
-      usuarios[i].telefono +
-      "\n img = " +
-      usuarios[i].img
-  );
+let listaUsuarios = "";
+//let listaUsuarios = localStorage.getItem("listaUsuarios");
+fetchDatos();
+function fetchDatos() {
+  fetch("../json/datos.json")
+    .then((response) => response.json())
+    .then((data) => {
+      for (let i in data) {
+        console.log(data[i]);
+        listaUsuarios = data[i];
+      }
+    })
+    .then(() => {
+      mostrarInfoUsuarios();
+    });
 }
 
-const seccionUsuarios = document.getElementById("seccionUsuarios");
+function mostrarInfoUsuarios() {
+  console.log(listaUsuarios);
+  const usuarios = listaUsuarios;
+  console.log(usuarios);
+  console.log(usuarios.length);
 
-for (let i = 0; i < usuarios.length; i++) {
-  let card = document.createElement("div");
-  card.className = "cardUsuario";
-  card.innerHTML = `
+  for (let i = 0; i < usuarios.length; i++) {
+    console.log(i);
+    alert(
+      "Informacion Usuarios: " +
+        "\n Id = " +
+        usuarios[i].id +
+        "\n nombres = " +
+        usuarios[i].nombres +
+        "\n apellidos = " +
+        usuarios[i].apellidos +
+        "\n edad = " +
+        usuarios[i].edad +
+        "\n comida = " +
+        usuarios[i].comida +
+        "\n telefono = " +
+        usuarios[i].pelicula +
+        "\n alcohol = " +
+        usuarios[i].alcohol +
+        "\n img = " +
+        usuarios[i].img
+    );
+  }
+
+  const seccionUsuarios = document.getElementById("seccionUsuarios");
+
+  for (let i = 0; i < usuarios.length; i++) {
+    let card = document.createElement("div");
+    card.className = "cardUsuario";
+    card.innerHTML = `
   <div class="card mb-3" style="max-width: 540px;">
     <div class="row g-0">
       <div class="col-md-4">
@@ -50,9 +69,11 @@ for (let i = 0; i < usuarios.length; i++) {
             usuarios[i].nombres + usuarios[i].apellidos
           }</h6>
           <p class="card-text"> ${usuarios[i].edad}</p>
-          <p class="card-text">${usuarios[i].comidaFavorita}</p>
+          <p class="card-text">${usuarios[i].comida}</p>
+          <p class="card-text">${usuarios[i].pelicula}</p>
+          <p class="card-text">${usuarios[i].alcohol}</p>
           <p class="card-text"><small class="text-body-secondary">${
-            usuarios[i].telefono
+            usuarios[i].email
           }</small></p>
           <a href="#" class="btn btn-primary">Editar</a>
           <a href="#" class="btn btn-danger">Eliminar</a>
@@ -95,7 +116,8 @@ for (let i = 0; i < usuarios.length; i++) {
 </div>
   `;
 
-  seccionUsuarios.append(card);
+    seccionUsuarios.append(card);
+  }
 }
 
 //El ideal es renderizar esta informacion, mostrando como un tipo de cards, con las diferentes opciones y datos relacionados de las apis

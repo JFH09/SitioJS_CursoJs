@@ -7,9 +7,21 @@
         "apellidos": "perez",
         "edad": 17,
         "email": "pepitoPerez@gmail.com",
-        "profesion": "conductor",
-        "comidaFavorita": "pizza",
-        "telefono": 22342432,
+        "pelicula": "Hombres De Negro",
+        "comida": "pizza",
+        "alcohol": "vodka",
+        "img": "https://cdn-icons-png.flaticon.com/512/6073/6073874.png"
+    }, 
+    {
+        "id": "jose44",
+        "pass": "joselito2",
+        "nombres": "jose",
+        "apellidos": "ramirez",
+        "edad": 44,
+        "email": "joselito@gmail.com",
+        "pelicula": "el padrino",
+        "comida": "pasta",
+        "alcohol": "whiskey",
         "img": "https://cdn-icons-png.flaticon.com/512/6073/6073874.png"
     }
    ] 

@@ -6,9 +6,9 @@ class Usuario {
     apellidos,
     email,
     edad,
-    profesion,
-    comidaFavorita,
-    telefono,
+    pelicula,
+    comida,
+    alcohol,
     img,
     ...listaUsuarios
   ) {
@@ -18,9 +18,9 @@ class Usuario {
     this.apellidos = apellidos;
     this.email = email;
     this.edad = edad;
-    this.profesion = profesion;
-    this.comidaFavorita = comidaFavorita;
-    this.telefono = telefono;
+    this.pelicula = pelicula;
+    this.comida = comida;
+    this.alcohol = alcohol;
     this.img = img;
     this.listaUsuarios = listaUsuarios;
   }
@@ -57,7 +57,12 @@ class Usuario {
         }
       });
     } else {
-      alert("No te encuentras registrado, registrate ahora!!! ");
+      Swal.fire({
+        title: "No te encuentras registrado, registrate ahora!!!",
+        text: " :)",
+        icon: "warning",
+        confirmButtonText: "Listo",
+      });
     }
   }
 
@@ -71,9 +76,9 @@ class Usuario {
       apellidos: datos.apellidos,
       edad: parseInt(datos.edad),
       email: datos.email,
-      profesion: datos.profesion,
-      comidaFavorita: datos.comidaFavorita,
-      telefono: parseInt(datos.telefono),
+      pelicula: datos.pelicula,
+      comida: datos.comida,
+      alcohol: datos.alcohol,
       img: datos.img,
     });
   }
@@ -93,7 +98,11 @@ class Usuario {
           " " +
           x.email +
           " " +
-          x.telefono +
+          x.pelicula +
+          " " +
+          x.comida +
+          " " +
+          x.alcohol +
           " " +
           x.img
       )
