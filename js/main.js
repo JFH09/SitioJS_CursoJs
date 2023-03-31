@@ -1,22 +1,14 @@
-/*
-     se contecta aun con el DOM, las opciones que aparecen en el alert son las que aun no se 
-     han desarrollado por completo o estan en construcción
-
-     el login se puede realizar, el registro tambien
-
-     en el login si hacen el check de recordar los datos, se guardan los datos en el 
-     local storage y la proxima vez que accedas al login se iniciara sesion automaticamente 
-     y te redireccionara a la pagina donde se encontraran la información de todos los usuarios
-
-     la pagina en mencion aun no esta desarrollada, la idea es que con la información que se brinda en 
-     el formulario, se ,uestre la lista total de los usuarios en donde 
-     para cada usuario se le recomienden ya sea alguna comida, se le diga donde poder ver la pelicula 
-     que ingreso, puede que se me ocurra otra idea con la info que se tiene, esta parte se realizara con 
-     peticiones fetch a una api... y de igual forma, el ideal es que se pueda eliminar o editar cualquier usuario 
-     de la lista.
-
-
+/* Como se esta cambiando el manejo de datos de localStorage a json 
+  si se registra un nuevo usuario, no se evidenciara en la lista, vista infoUsuarios,
+  pero se puede evidenciar en el localStorage como se estaba manejando, esto por que se quiere
+  manejar como bd y realizar peticiones fetch para editar, crear y eliminar los datos de 
+  usuarios.
+  por eso mismo, por el momento, para la funcionalidad de guardar información, solo
+  servira con los usuarios que esten quemados en el json, no con los que se creen, pero 
+  como digo, si se crean usuarios, se guardaran en el localStorage por que se estaba manejando de esa
+  manera...
 */
+
 let respuesta = "";
 function buscarUsuLogueado() {
   fetchDatos();
@@ -44,36 +36,7 @@ function buscarUsuLogueado() {
     });
   } else {
     alert("no se encontro usuario logueado...");
-    do {
-      console.log("respuesta", respuesta);
-      let opc = parseInt(
-        prompt(
-          "Elija una opcion...\n" +
-            "3) VER LISTA USUARIOS !!!!! \n" +
-            "4) intento con fetch (EN CONSTRUCCIÓN)\n" + //sE TIENE PENSADO MANEJAR LOS DATOS POR ESTE MEDIO
-            "9) Salir\n"
-        )
-      );
-
-      if (opc == 3) {
-        user.imprimirListaUsuarios(...listaUsuarios);
-      }
-      if (opc == 4) {
-        alert("peticion fetch...");
-        alert(fetchDatos());
-        console.log("se pidieron los datos...");
-
-        respuesta = fetch("./json/datos.json")
-          .then((response) => response.json())
-          .then((data) => console.log(data));
-        alert(respuesta);
-      }
-      if (opc == 9) {
-        salir = true;
-      }
-    } while (salir != 1);
   }
-  console.log(respuesta);
 }
 
 let salir = false;

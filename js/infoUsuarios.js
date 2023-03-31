@@ -4,6 +4,11 @@ btnCerrarSesion.addEventListener("click", () => {
   cerrarSesion();
 });
 let listaUsuarios = "";
+/*En esta parte se renderizan los usuarios, pero en el estado actual si 
+  se registra el usuario no se evidenciara renderizado ya que se empezo a cambiar de
+  localStorage a json, se puede ver que en el localStorage se guarda la info, pero como
+  se empezo a migrar el codigo se volveria confuso si dejo ambas funcionalidades...
+*/
 //let listaUsuarios = localStorage.getItem("listaUsuarios");
 fetchDatos();
 function fetchDatos() {
@@ -120,12 +125,9 @@ function mostrarInfoUsuarios() {
   }
 }
 
-//El ideal es renderizar esta informacion, mostrando como un tipo de cards, con las diferentes opciones y datos relacionados de las apis
-
 function cerrarSesion() {
   console.log("cerrar sesion...");
 
-  let usuarioLogTemporal = localStorage.getItem("usuarioIniTempo");
   let usuarioGuardado = localStorage.getItem("usuarioAutoIni");
 
   let usuGuardado = JSON.parse(usuarioGuardado);
