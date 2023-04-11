@@ -12,7 +12,8 @@ let listaUsuarios = "";
 //let listaUsuarios = localStorage.getItem("listaUsuarios");
 fetchDatos();
 function fetchDatos() {
-  fetch("../json/datos.json")
+  //fetch("../json/datos.json")
+  fetch("https://jfh09.github.io/JSON_API_DB_SITIO_JS/datos.json")
     .then((response) => response.json())
     .then((data) => {
       for (let i in data) {

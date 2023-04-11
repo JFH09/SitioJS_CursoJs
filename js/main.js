@@ -115,7 +115,7 @@ btnRegistrarme.addEventListener("click", () => {
   .then(response => console.log('Success:', response));*/
 
   vaciarCampos();
-  //  user.registrarUsuario(datos, ...listaUsuarios);
+  user.registrarUsuario(datos, ...listaUsuarios);
 });
 
 function pedirDatosRegistro() {
@@ -158,7 +158,9 @@ function vaciarCampos() {
 }
 
 async function fetchDatos() {
-  let respuesta = fetch("./json/datos.json")
+  let respuesta = fetch(
+    "https://jfh09.github.io/JSON_API_DB_SITIO_JS/datos.json"
+  )
     .then((response) => response.json())
     .then((data) => {
       for (let i in data) {
