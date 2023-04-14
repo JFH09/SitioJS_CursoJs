@@ -81,27 +81,8 @@ class Usuario {
       alcohol: datos.alcohol,
       img: datos.img,
     });
-    let headers = new Headers();
 
-    headers.append("Content-Type", "application/json");
-    headers.append("Accept", "application/json");
-    headers.append(
-      "Authorization",
-      "Basic " /*+ base64.encode(username + ":" + password)*/
-    );
-    headers.append("Origin", "http://localhost:5501");
-
-    fetch("https://jfh09.github.io/JSON_API_DB_SITIO_JS/datos.json", {
-      method: "POST", // or 'PUT'
-      body: JSON.stringify(listaUsuarios), // data can be `string` or {object}!
-      mode: "cors",
-      credentials: "include",
-
-      headers: headers,
-    })
-      .then((res) => res.json())
-      .catch((error) => console.error("Error:", error))
-      .then((response) => console.log("Success:", response));
+    localStorage.setItem("listaUsuarios", JSON.stringify(listaUsuarios));
   }
 
   imprimirListaUsuarios(...listaUsuarios) {
@@ -130,18 +111,18 @@ class Usuario {
     );
   }
 
-  traerUsuarios() {
-    let listaUsuarios = "";
-    fetch("https://jfh09.github.io/JSON_API_DB_SITIO_JS/datos.json")
-      .then((response) => response.json())
-      .then((data) => {
-        for (let i in data) {
-          console.log(data[i]);
-          listaUsuarios = data[i];
-        }
-      })
-      .then(() => {
-        this.imprimirListaUsuarios(...this.listaUsuarios);
-      });
-  }
+  // traerUsuarios() {
+  //   let listaUsuarios = "";
+  //   fetch("https://jfh09.github.io/JSON_API_DB_SITIO_JS/datos.json")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       for (let i in data) {
+  //         console.log(data[i]);
+  //         listaUsuarios = data[i];
+  //       }
+  //     })
+  //     .then(() => {
+  //       this.imprimirListaUsuarios(...this.listaUsuarios);
+  //     });
+  // }
 }

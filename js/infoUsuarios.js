@@ -3,33 +3,18 @@ const btnCerrarSesion = document.getElementById("cerrarSesion");
 btnCerrarSesion.addEventListener("click", () => {
   cerrarSesion();
 });
-let listaUsuarios = "";
+//let listaUsuarios = "";
 /*En esta parte se renderizan los usuarios, pero en el estado actual si 
   se registra el usuario no se evidenciara renderizado ya que se empezo a cambiar de
   localStorage a json, se puede ver que en el localStorage se guarda la info, pero como
   se empezo a migrar el codigo se volveria confuso si dejo ambas funcionalidades...
 */
-//let listaUsuarios = localStorage.getItem("listaUsuarios");
-fetchDatos();
-function fetchDatos() {
-  //fetch("../json/datos.json")
-  fetch("https://jfh09.github.io/JSON_API_DB_SITIO_JS/datos.json")
-    .then((response) => response.json())
-    .then((data) => {
-      for (let i in data) {
-        console.log(data[i]);
-        listaUsuarios = data[i];
-      }
-    })
-    .then(() => {
-      mostrarInfoUsuarios();
-    });
-}
+let listaUsuarios = localStorage.getItem("listaUsuarios");
+mostrarInfoUsuarios();
 
 function mostrarInfoUsuarios() {
   console.log(listaUsuarios);
-  const usuarios = listaUsuarios;
-  console.log(usuarios);
+  let usuarios = JSON.parse(listaUsuarios);
   console.log(usuarios.length);
 
   for (let i = 0; i < usuarios.length; i++) {

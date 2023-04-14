@@ -8,14 +8,29 @@
   como digo, si se crean usuarios, se guardaran en el localStorage por que se estaba manejando de esa
   manera...
 */
+let yaSeCargoLaPaginaAntes;
 
-let respuesta = "";
+function cargarPagina() {
+  let paginaCargada = localStorage.getItem("paginaCargadaAnteriorMente");
+
+  if (paginaCargada) {
+    //Si ya se cargo los datos una anterior vez(true), no se cargan los datos desde fetch sino desde el localStorage
+    localStorageDatos();
+  } else {
+    //Si no se ha cargado(false), es necesario cargar los datos desde la peticion fetch
+    localStorage.setItem("paginaCargadaAnteriorMente", true);
+    fetchDatos();
+  }
+  buscarUsuLogueado();
+}
+
 function buscarUsuLogueado() {
-  fetchDatos();
   let datosUsuEncontrados = false;
-  alert("buscando usu logeado!!!");
+  //alert("buscando usu logeado!!!");
+  console.log("buscando Usu Logueado...");
   const usuarioLogueado = localStorage.getItem("usuarioAutoIni");
-  alert(usuarioLogueado);
+  //alert(usuarioLogueado);
+  console.log(usuarioLogueado);
   if (usuarioLogueado != null) {
     datosUsuEncontrados = true;
   } else {
@@ -23,7 +38,8 @@ function buscarUsuLogueado() {
   }
 
   if (datosUsuEncontrados) {
-    alert("Se encontraron datos..." + JSON.parse(usuarioLogueado));
+    // alert("Se encontraron datos..." + JSON.parse(usuarioLogueado));
+    console.log("Se encontraron datos..." + JSON.parse(usuarioLogueado));
     Swal.fire({
       title: "Se Inicio Sesion con datos almacenados!",
       text: "Bienvenido " + usuarioLogueado,
@@ -35,14 +51,16 @@ function buscarUsuLogueado() {
       }
     });
   } else {
-    alert("no se encontro usuario logueado...");
+    //alert("no se encontro usuario logueado...");
+    console.log("no se encontro usuario logueado...");
+    //almacenarDatosLocalStorage();
   }
 }
 
 let salir = false;
 
-let listaUsuarios = "";
-
+let datos = "";
+let listaUsuarios;
 let user = new Usuario();
 let recordarDatos = false;
 /*Botones */
@@ -101,21 +119,9 @@ btnRegistrarme.addEventListener("click", () => {
     confirmButtonText: "ok",
   });
   console.log(listaUsuarios);
-  localStorage.setItem("listaUsuarios", JSON.stringify(listaUsuarios));
 
-  //Estoy implementando una forma para que se pueda modificar el json y dejar de manejar los datos de los usuarios desde el localStorage...
-  /*fetch("./json/datos.json", {
-    method: 'POST', // or 'PUT'
-    body: JSON.stringify(data), // data can be `string` or {object}!
-    headers:{
-      'Content-Type': 'application/json'
-    }
-  }).then(res => res.json())
-  .catch(error => console.error('Error:', error))
-  .then(response => console.log('Success:', response));*/
-
-  vaciarCampos();
   user.registrarUsuario(datos, ...listaUsuarios);
+  vaciarCampos();
 });
 
 function pedirDatosRegistro() {
@@ -157,17 +163,37 @@ function vaciarCampos() {
   document.getElementById("contra").value = "";
 }
 
-async function fetchDatos() {
-  let respuesta = fetch(
-    "https://jfh09.github.io/JSON_API_DB_SITIO_JS/datos.json"
-  )
+function fetchDatos() {
+  fetch("https://jfh09.github.io/JSON_API_DB_SITIO_JS/datos.json")
     .then((response) => response.json())
     .then((data) => {
-      for (let i in data) {
-        console.log(data[i]);
-        listaUsuarios = data[i];
-      }
+      console.log(data);
+      datos = data;
+    })
+    .then(() => {
+      almacenarDatosLocalStorage();
     });
+}
 
-  return respuesta;
+function localStorageDatos() {
+  console.log(
+    "Se obtienen los datos desde el local storage ya que ya se cargaron los datos antes..."
+  );
+  listaUsuarios = JSON.parse(localStorage.getItem("listaUsuarios"));
+  console.log(listaUsuarios);
+  for (let i in listaUsuarios) {
+    console.log("Se esta almacenando ....", listaUsuarios[i]);
+  }
+}
+
+function almacenarDatosLocalStorage() {
+  console.log("Se esta almacenando ....", typeof datos["listaUsuarios"]);
+  console.log("Se esta almacenando ....", datos["listaUsuarios"]);
+  listaUsuarios = datos["listaUsuarios"];
+  console.log(listaUsuarios);
+  for (let i in datos["listaUsuarios"]) {
+    console.log("Se esta almacenando ....", datos["listaUsuarios"][i]);
+  }
+
+  localStorage.setItem("listaUsuarios", JSON.stringify(datos["listaUsuarios"]));
 }
