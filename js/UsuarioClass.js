@@ -83,6 +83,13 @@ class Usuario {
     });
 
     localStorage.setItem("listaUsuarios", JSON.stringify(listaUsuarios));
+    Swal.fire({
+      title: "Se registro exitosamente el usuario!",
+      text: " :)",
+      icon: "success",
+      confirmButtonText: "ok",
+    });
+    console.log(listaUsuarios);
   }
 
   imprimirListaUsuarios(...listaUsuarios) {

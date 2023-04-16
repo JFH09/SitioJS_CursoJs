@@ -1,8 +1,12 @@
 const btnCerrarSesion = document.getElementById("cerrarSesion");
-
+const btnEditar = document.getElementById("editar");
 btnCerrarSesion.addEventListener("click", () => {
   cerrarSesion();
 });
+
+// btnEditar.addEventListener("click", () => {
+//   alert("Vamos a editar!!");
+// });
 //let listaUsuarios = "";
 /*En esta parte se renderizan los usuarios, pero en el estado actual si 
   se registra el usuario no se evidenciara renderizado ya que se empezo a cambiar de
@@ -10,7 +14,6 @@ btnCerrarSesion.addEventListener("click", () => {
   se empezo a migrar el codigo se volveria confuso si dejo ambas funcionalidades...
 */
 let listaUsuarios = localStorage.getItem("listaUsuarios");
-mostrarInfoUsuarios();
 
 function mostrarInfoUsuarios() {
   console.log(listaUsuarios);
@@ -19,7 +22,7 @@ function mostrarInfoUsuarios() {
 
   for (let i = 0; i < usuarios.length; i++) {
     console.log(i);
-    alert(
+    console.log(
       "Informacion Usuarios: " +
         "\n Id = " +
         usuarios[i].id +
@@ -55,19 +58,58 @@ function mostrarInfoUsuarios() {
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title"> ${usuarios[i].id}</h5>
+          <h5 class="card-title"> ${
+            usuarios[i].id
+          }<span><ion-icon name="create-outline" onclick="editarUsuario(
+            'id',
+            ${usuarios.indexOf(usuarios[i])} 
+            )"></ion-icon></span></h5>
           <h6 class="card-text"> ${
-            usuarios[i].nombres + usuarios[i].apellidos
-          }</h6>
-          <p class="card-text"> ${usuarios[i].edad}</p>
-          <p class="card-text">${usuarios[i].comida}</p>
-          <p class="card-text">${usuarios[i].pelicula}</p>
-          <p class="card-text">${usuarios[i].alcohol}</p>
+            usuarios[i].nombres
+          }<span><ion-icon name="create-outline" onclick="editarUsuario(
+              'nombres',
+              ${usuarios.indexOf(usuarios[i])} 
+              )"></ion-icon></span> ${
+                " " + usuarios[i].apellidos
+              } <span><ion-icon name="create-outline" onclick="editarUsuario(
+                'apellidos',
+                ${usuarios.indexOf(usuarios[i])} 
+                )"></ion-icon></span>
+          </h6>
+          <p class="card-text"> ${
+            usuarios[i].edad
+          }<span><ion-icon name="create-outline" onclick="editarUsuario(
+            'edad',
+            ${usuarios.indexOf(usuarios[i])} 
+            )"></ion-icon></span></p>
+          <p class="card-text">${
+            usuarios[i].comida
+          }<span><ion-icon name="create-outline" onclick="editarUsuario(
+            'comida',
+            ${usuarios.indexOf(usuarios[i])} 
+            )"></ion-icon></span></p>
+          <p class="card-text">${
+            usuarios[i].pelicula
+          }<span><ion-icon name="create-outline" onclick="editarUsuario(
+            'pelicula',
+            ${usuarios.indexOf(usuarios[i])} 
+            )"></ion-icon></span></p>
+          <p class="card-text">${
+            usuarios[i].alcohol
+          }<span><ion-icon name="create-outline" onclick="editarUsuario(
+            'alcohol',
+            ${usuarios.indexOf(usuarios[i])} 
+            )"></ion-icon></span></p>
           <p class="card-text"><small class="text-body-secondary">${
             usuarios[i].email
-          }</small></p>
-          <a href="#" class="btn btn-primary">Editar</a>
-          <a href="#" class="btn btn-danger">Eliminar</a>
+          }</small><span><ion-icon name="create-outline" onclick="editarUsuario(
+            'email',
+            ${usuarios.indexOf(usuarios[i])} 
+            )"></ion-icon></span></p>
+          
+          <a href="#" class="btn btn-danger" onclick="eliminarUsuario(
+            ${usuarios.indexOf(usuarios[i])}
+            )">Eliminar</a>
           </div>
       </div>
       <div class="relacionInfo">
@@ -144,4 +186,327 @@ function cerrarSesion() {
       window.location.href = "../index.html";
     }
   });
+}
+
+function editarUsuario(campo, posicionUsuario) {
+  let infoUsuario = JSON.parse(localStorage.getItem("listaUsuarios"));
+  infoUsuario = infoUsuario[posicionUsuario];
+  console.log(infoUsuario);
+  console.log(listaUsuarios);
+  let usuarios = JSON.parse(listaUsuarios);
+  let usuarioAlmacenado = JSON.parse(localStorage.getItem("usuarioAutoIni"));
+  console.log(usuarioAlmacenado);
+  let cerrarSesion = false;
+  if (usuarioAlmacenado != null) {
+    alert("hay un usuario almacenado...");
+    console.log(usuarioAlmacenado.email, " / " + infoUsuario.email);
+    if (usuarioAlmacenado.email == infoUsuario.email) {
+      //Dejar el aler de abajo...
+      alert(
+        "Va a  modificar un usuario almacenado y se tendra que modificar el usuario almacenado..."
+      );
+      cerrarSesion = true;
+    } else {
+      alert("no esta modificando a un usuario almacenado");
+    }
+  } else {
+    alert("no hay un usuario almacenado");
+  }
+  infoUsuario.email;
+  usuarioAlmacenado;
+  switch (campo) {
+    case "id":
+      console.log("se va a editar un usuario en el campo ", campo);
+      Swal.fire({
+        title: "Editando campo " + campo + " : " + infoUsuario.id,
+        input: "text",
+        inputAttributes: {
+          autocapitalize: "off",
+        },
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        showLoaderOnConfirm: true,
+        preConfirm: (modificacion) => {
+          infoUsuario.id = modificacion;
+          console.log(infoUsuario);
+          usuarios[posicionUsuario] = infoUsuario;
+          console.log(usuarios);
+          localStorage.setItem("listaUsuarios", JSON.stringify(usuarios));
+          return console.log("retornando algo...", modificacion);
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: ` se guardo correctamente(?)`,
+              icon: "success",
+              showConfirmButton: false,
+              //  imageUrl: result.value.avatar_url,
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, "1300");
+          }
+        })
+        .then(() => {});
+      break;
+    case "nombres":
+      console.log("se va a editar un usuario en el campo ", campo);
+      Swal.fire({
+        title: "Editando campo " + campo + " : " + infoUsuario.nombres,
+        input: "text",
+        inputAttributes: {
+          autocapitalize: "off",
+        },
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        showLoaderOnConfirm: true,
+        preConfirm: (modificacion) => {
+          infoUsuario.nombres = modificacion;
+          console.log(infoUsuario);
+          usuarios[posicionUsuario] = infoUsuario;
+          console.log(usuarios);
+          localStorage.setItem("listaUsuarios", JSON.stringify(usuarios));
+          return console.log("retornando algo...", modificacion);
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: ` se guardo correctamente(?)`,
+            icon: "success",
+            showConfirmButton: false,
+            //  imageUrl: result.value.avatar_url,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, "1300");
+        }
+      });
+      break;
+    case "apellidos":
+      console.log("se va a editar un usuario en el campo ", campo);
+      Swal.fire({
+        title: "Editando campo " + campo + " : " + infoUsuario.apellidos,
+        input: "text",
+        inputAttributes: {
+          autocapitalize: "off",
+        },
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        showLoaderOnConfirm: true,
+        preConfirm: (modificacion) => {
+          infoUsuario.apellidos = modificacion;
+          console.log(infoUsuario);
+          usuarios[posicionUsuario] = infoUsuario;
+          console.log(usuarios);
+          localStorage.setItem("listaUsuarios", JSON.stringify(usuarios));
+          return console.log("retornando algo...", modificacion);
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: ` se guardo correctamente(?)`,
+            icon: "success",
+            showConfirmButton: false,
+            //  imageUrl: result.value.avatar_url,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, "1300");
+        }
+      });
+      break;
+    case "edad":
+      console.log("se va a editar un usuario en el campo ", campo);
+      Swal.fire({
+        title: "Editando campo " + campo + " : " + infoUsuario.edad,
+        input: "text",
+        inputAttributes: {
+          autocapitalize: "off",
+        },
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        showLoaderOnConfirm: true,
+        preConfirm: (modificacion) => {
+          infoUsuario.edad = modificacion;
+          console.log(infoUsuario);
+          usuarios[posicionUsuario] = infoUsuario;
+          console.log(usuarios);
+          localStorage.setItem("listaUsuarios", JSON.stringify(usuarios));
+          return console.log("retornando algo...", modificacion);
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: ` se guardo correctamente(?)`,
+            icon: "success",
+            showConfirmButton: false,
+            //  imageUrl: result.value.avatar_url,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, "1300");
+        }
+      });
+      break;
+    case "email":
+      console.log("se va a editar un usuario en el campo ", campo);
+      Swal.fire({
+        title: "Editando campo " + campo + " : " + infoUsuario.email,
+        input: "text",
+        inputAttributes: {
+          autocapitalize: "off",
+        },
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        showLoaderOnConfirm: true,
+        preConfirm: (modificacion) => {
+          infoUsuario.email = modificacion;
+          console.log(infoUsuario);
+          usuarios[posicionUsuario] = infoUsuario;
+
+          console.log(usuarios);
+          localStorage.setItem("listaUsuarios", JSON.stringify(usuarios));
+
+          return console.log("retornando algo...", modificacion);
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: ` se guardo correctamente(?)`,
+            icon: "success",
+            showConfirmButton: false,
+            //  imageUrl: result.value.avatar_url,
+          });
+          if (!cerrarSesion) {
+            alert("no se tiene que cerrar sesion");
+            setTimeout(() => {
+              window.location.reload();
+            }, "1300");
+          } else {
+            alert("se modifico el usuario almacenado!!!");
+            localStorage.removeItem("usuarioAutoIni");
+            //cerrarSesion();
+            let infoUsu = { email: infoUsuario.email, pass: infoUsuario.pass };
+            console.log(infoUsu);
+            localStorage.setItem("usuarioAutoIni", JSON.stringify(infoUsu));
+            setTimeout(() => {
+              window.location.reload();
+            }, "1300");
+          }
+        }
+      });
+      break;
+    case "pelicula":
+      console.log("se va a editar un usuario en el campo ", campo);
+      Swal.fire({
+        title: "Editando campo " + campo + " : " + infoUsuario.pelicula,
+        input: "text",
+        inputAttributes: {
+          autocapitalize: "off",
+        },
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        showLoaderOnConfirm: true,
+        preConfirm: (modificacion) => {
+          infoUsuario.pelicula = modificacion;
+          console.log(infoUsuario);
+          usuarios[posicionUsuario] = infoUsuario;
+          console.log(usuarios);
+          localStorage.setItem("listaUsuarios", JSON.stringify(usuarios));
+          return console.log("retornando algo...", modificacion);
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: ` se guardo correctamente(?)`,
+            icon: "success",
+            showConfirmButton: false,
+            //  imageUrl: result.value.avatar_url,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, "1300");
+        }
+      });
+      break;
+    case "comida":
+      console.log("se va a editar un usuario en el campo ", campo);
+      Swal.fire({
+        title: "Editando campo " + campo + " : " + infoUsuario.comida,
+        input: "text",
+        inputAttributes: {
+          autocapitalize: "off",
+        },
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        showLoaderOnConfirm: true,
+        preConfirm: (modificacion) => {
+          infoUsuario.comida = modificacion;
+          console.log(infoUsuario);
+          usuarios[posicionUsuario] = infoUsuario;
+          console.log(usuarios);
+          localStorage.setItem("listaUsuarios", JSON.stringify(usuarios));
+          return console.log("retornando algo...", modificacion);
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: ` se guardo correctamente(?)`,
+            icon: "success",
+            showConfirmButton: false,
+            //  imageUrl: result.value.avatar_url,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, "1300");
+        }
+      });
+      break;
+    case "alcohol":
+      console.log("se va a editar un usuario en el campo ", campo);
+      Swal.fire({
+        title: "Editando campo " + campo + " : " + infoUsuario.alcohol,
+        input: "text",
+        inputAttributes: {
+          autocapitalize: "off",
+        },
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        showLoaderOnConfirm: true,
+        preConfirm: (modificacion) => {
+          infoUsuario.alcohol = modificacion;
+          console.log(infoUsuario);
+          usuarios[posicionUsuario] = infoUsuario;
+          console.log(usuarios);
+          localStorage.setItem("listaUsuarios", JSON.stringify(usuarios));
+          return console.log("retornando algo...", modificacion);
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: ` se guardo correctamente(?)`,
+            icon: "success",
+            showConfirmButton: false,
+            //  imageUrl: result.value.avatar_url,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, "1300");
+        }
+      });
+      break;
+  }
+}
+
+function eliminarUsuario(posicionUsuario) {
+  console.log("eliminarUsuario que esta el la posicion => ", posicionUsuario);
 }

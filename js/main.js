@@ -71,7 +71,7 @@ const btnRecorarDatos = document.getElementById("recordarDatos");
 btnEntrar.addEventListener("click", () => {
   const emailLogin = document.getElementById("emailLogin").value;
   const passLogin = document.getElementById("passLogin").value;
-
+  listaUsuarios = JSON.parse(localStorage.getItem("listaUsuarios"));
   console.log("mandando..." + email + "-" + passLogin + "---" + recordarDatos);
   user.iniciarSesion(emailLogin, passLogin, recordarDatos, ...listaUsuarios);
 });
@@ -100,25 +100,18 @@ btnRegistrarme.addEventListener("click", () => {
   let datos = pedirDatosRegistro();
   console.log(datos);
 
-  listaUsuarios.push({
-    id: datos.id,
-    pass: datos.pass,
-    nombres: datos.nombres,
-    apellidos: datos.apellidos,
-    edad: parseInt(datos.edad),
-    email: datos.email,
-    pelicula: datos.pelicula,
-    comida: datos.comida,
-    alcohol: datos.alcohol,
-    img: datos.img,
-  });
-  Swal.fire({
-    title: "Se registro exitosamente el usuario!",
-    text: " :)",
-    icon: "success",
-    confirmButtonText: "ok",
-  });
-  console.log(listaUsuarios);
+  // listaUsuarios.push({
+  //   id: datos.id,
+  //   pass: datos.pass,
+  //   nombres: datos.nombres,
+  //   apellidos: datos.apellidos,
+  //   edad: parseInt(datos.edad),
+  //   email: datos.email,
+  //   pelicula: datos.pelicula,
+  //   comida: datos.comida,
+  //   alcohol: datos.alcohol,
+  //   img: datos.img,
+  // });
 
   user.registrarUsuario(datos, ...listaUsuarios);
   vaciarCampos();
