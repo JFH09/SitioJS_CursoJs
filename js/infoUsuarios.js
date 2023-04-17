@@ -122,15 +122,19 @@ function mostrarInfoUsuarios() {
         <div class="row">
 
             <div class="collapse multi-collapse" id="multiCollapseExample1">
-              <div class="card card-body bg-primary-subtle ">
-                Tu comida favorita la puedes hacer asi...
+              <div class="card card-body bg-primary-subtle id="comidaContainer"">
+                Te puede interesar alguna de las siguientes recetas
+                ${consultarInfoComida(usuarios[i].comida, usuarios[i].email)}
+                <div id="titleFood${usuarios[i].email}"></div>
+
               </div>
             </div>
 
 
             <div class="collapse multi-collapse" id="multiCollapseExample2">
-              <div class="card card-body bg-secondary-subtle">
+              <div id=peli" class="card card-body bg-secondary-subtle">
                 Tu pelicula favorita la puedes ver en:
+                ${consultarInfoPelicula(usuarios[i].pelicula)}
               </div>
             </div>
 
@@ -138,6 +142,11 @@ function mostrarInfoUsuarios() {
           <div class="collapse multi-collapse" id="multiCollapseExample3">
             <div class="card card-body bg-success-subtle">
               El coctel que te podria gustar de acuerdo a tu gusto podria ser...
+              
+              
+              ${consultarInfoLicor(usuarios[i].alcohol, usuarios[i].email)}
+              <div id="titleLicor${usuarios[i].email}"></div>
+
             </div>
           </div>
 
@@ -509,4 +518,146 @@ function editarUsuario(campo, posicionUsuario) {
 
 function eliminarUsuario(posicionUsuario) {
   console.log("eliminarUsuario que esta el la posicion => ", posicionUsuario);
+
+  let obtenerListaUsuarios = JSON.parse(localStorage.getItem("listaUsuarios"));
+  let nuevaLista = obtenerListaUsuarios.filter(
+    (usuarios) => usuarios != obtenerListaUsuarios[posicionUsuario]
+  );
+  console.log("nueva lista quedo -> ", nuevaLista);
+  localStorage.removeItem("listaUsuarios");
+  localStorage.setItem("listaUsuarios", JSON.stringify(nuevaLista));
+  // alert("usuario eliminado exitosamente...");
+
+  Swal.fire({
+    title: ` usuario eliminado exitosamente`,
+    icon: "success",
+    showConfirmButton: false,
+    //  imageUrl: result.value.avatar_url,
+  });
+  setTimeout(() => {
+    window.location.reload();
+  }, "1300");
+}
+let listaPeliculas = "";
+function consultarInfoPelicula(peliculaUsu) {
+  //console.log("consultandooo -> ", peliculaUsu);
+  /*let ver = "";
+
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "6668e552e5msh3d407443f84287cp196fd4jsnde73b4ddb5fb",
+      "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com",
+    },
+  };
+
+  fetch(
+    "https://streaming-availability.p.rapidapi.com/v2/search/title?title=" +
+      peliculaUsu +
+      "&country=us&output_language=en",
+    options
+  )
+    .then((response) => response.json())
+    .then((response) => {
+      // for (let i in response) {
+      //console.log(response[0].title);
+      console.log(response);
+      listaPeliculas = response;
+      console.log(listaPeliculas);
+      // }
+    })
+    .then(() => {
+      ver = mostrarPeliculas(peliculaUsu);
+    })
+    .catch((err) => console.error(err));
+*/
+  return "FUNCIONAAAAA!!****";
+}
+
+function mostrarPeliculas() {
+  console.log(listaPeliculas["result"]);
+  let listaPeli = listaPeliculas["result"];
+  let infoUsuario = document.getElementById("peli");
+  console.log(listaPeli.title);
+}
+let listaRecetas;
+let recetas = "";
+
+function consultarInfoComida(comidaUsu, email) {
+  console.log("consultandooo -> ", comidaUsu);
+
+  let receta = "a";
+
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "6668e552e5msh3d407443f84287cp196fd4jsnde73b4ddb5fb",
+      "X-RapidAPI-Host": "recipe-by-api-ninjas.p.rapidapi.com",
+    },
+  };
+
+  fetch(
+    "https://recipe-by-api-ninjas.p.rapidapi.com/v1/recipe?query=" + comidaUsu,
+    options
+  )
+    .then((response) => response.json())
+    .then((response) => {
+      //console.log(response);
+      listaRecetas = response;
+      let contenedorTitulo = document.getElementById("titleFood" + email); //padre
+
+      for (let i = 0; i <= listaRecetas.length; i++) {
+        let tituloSub = document.createElement("h5");
+        let parrafoIngredients = document.createElement("li");
+        let parrafoInstructions = document.createElement("p");
+        tituloSub.innerHTML = listaRecetas[i].title;
+        parrafoIngredients.innerHTML = listaRecetas[i].ingredients;
+        parrafoInstructions.innerHTML = listaRecetas[i].instructions;
+        contenedorTitulo.appendChild(tituloSub);
+        contenedorTitulo.appendChild(parrafoIngredients);
+        contenedorTitulo.appendChild(parrafoInstructions);
+      }
+      //console.log(listaRecetas);
+    })
+    .catch((err) => console.error(err));
+
+  return " : ";
+}
+let listaLicores;
+function consultarInfoLicor(licorUsu, email) {
+  console.log("consultandooo -> ", licorUsu);
+
+  let receta = "a";
+
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "6668e552e5msh3d407443f84287cp196fd4jsnde73b4ddb5fb",
+      "X-RapidAPI-Host": "recipe-by-api-ninjas.p.rapidapi.com",
+    },
+  };
+
+  fetch("https://api.api-ninjas.com/v1/cocktail?query=" + licorUsu, options)
+    .then((response) => response.json())
+    .then((response) => {
+      console.log(response);
+      /*  listaLicores = response;
+      let contenedorTitulo = document.getElementById("titleLicor" + email); //padre
+
+      for (let i = 0; i <= listaRecetas.length; i++) {
+        let tituloSub = document.createElement("h5");
+        let parrafoIngredients = document.createElement("li");
+        let parrafoInstructions = document.createElement("p");
+        tituloSub.innerHTML = listaRecetas[i].title;
+        parrafoIngredients.innerHTML = listaRecetas[i].ingredients;
+        parrafoInstructions.innerHTML = listaRecetas[i].instructions;
+        contenedorTitulo.appendChild(tituloSub);
+        contenedorTitulo.appendChild(parrafoIngredients);
+        contenedorTitulo.appendChild(parrafoInstructions);
+      }*/
+      //console.log(listaRecetas);
+    })
+    .catch((err) => console.error(err));
+
+  return " : ";
 }
