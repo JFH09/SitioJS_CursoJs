@@ -1,13 +1,25 @@
-/* Como se esta cambiando el manejo de datos de localStorage a json 
-  si se registra un nuevo usuario, no se evidenciara en la lista, vista infoUsuarios,
-  pero se puede evidenciar en el localStorage como se estaba manejando, esto por que se quiere
-  manejar como bd y realizar peticiones fetch para editar, crear y eliminar los datos de 
-  usuarios.
-  por eso mismo, por el momento, para la funcionalidad de guardar información, solo
-  servira con los usuarios que esten quemados en el json, no con los que se creen, pero 
-  como digo, si se crean usuarios, se guardaran en el localStorage por que se estaba manejando de esa
-  manera...
-*/
+/*
+  El sitio web cuando se inicie sesion, y se pase a la vista "infoUsuarios", 
+  recomiendo que se tenga cuidado y se revisen las opciones en las que se 
+  relacionan la comida, pelicula y licor preferido del usuario,  ya que solo te tienen 100 
+  peticiones para algunas apis que se estan usando, asi que a mayor cantidad de usuarios,
+  mayor seran las peticiones y puede que de tanto usarla, esas opciones de deshabniliten y ya no funcionen, 
+  esto por que se estan usando endpoints gratuitos, y se tiene una cierta cantidad de 
+  peticiones.
+
+  De igual manera, los datos obtenidos por las apis, son en cierta manera basicos, asi que para mayor 
+  facilidad, y usabilidad del sitio, intentar poner en nuevos registros licores como whiskey, gin, tequila, etc...(licores en los que se podria hacer un coctel), 
+  en la parte de comidas, serviria colocando, la comida en ingles, como chicken, salmon, hamburger, etc...
+  y puede que en las peliculas no se encuentren, pero salgan algunas que podrian coincidir...
+
+  En el archivo infoUsuarios.js, dejo en la parte de peliculas una segunda opcion para poder hacer las 
+  solicitudes por si se llegan a acabar, asi que se tendrian que descomentar y comentar las que estaban usando,
+  
+  IMPORTANTE: Cada vez que se edite o elimine un usuario, se recargara la pagina, asi que se estaran haciendo 
+  multiples solicitudes a las apis, para tener presente, dado el inconveniente con solo las 100 peticiones 
+  que se tienen. 
+
+ */
 let yaSeCargoLaPaginaAntes;
 
 function cargarPagina() {
@@ -17,7 +29,7 @@ function cargarPagina() {
     //Si ya se cargo los datos una anterior vez(true), no se cargan los datos desde fetch sino desde el localStorage
     localStorageDatos();
   } else {
-    //Si no se ha cargado(false), es necesario cargar los datos desde la peticion fetch
+    //Si no se ha cargado(false), es necesario cargar los datos desde la peticion fetch por primera vez
     localStorage.setItem("paginaCargadaAnteriorMente", true);
     fetchDatos();
   }
@@ -26,11 +38,9 @@ function cargarPagina() {
 
 function buscarUsuLogueado() {
   let datosUsuEncontrados = false;
-  //alert("buscando usu logeado!!!");
-  console.log("buscando Usu Logueado...");
+
   const usuarioLogueado = localStorage.getItem("usuarioAutoIni");
-  //alert(usuarioLogueado);
-  console.log(usuarioLogueado);
+
   if (usuarioLogueado != null) {
     datosUsuEncontrados = true;
   } else {
@@ -38,8 +48,6 @@ function buscarUsuLogueado() {
   }
 
   if (datosUsuEncontrados) {
-    // alert("Se encontraron datos..." + JSON.parse(usuarioLogueado));
-    console.log("Se encontraron datos..." + JSON.parse(usuarioLogueado));
     Swal.fire({
       title: "Se Inicio Sesion con datos almacenados!",
       text: "Bienvenido " + usuarioLogueado,
@@ -51,9 +59,7 @@ function buscarUsuLogueado() {
       }
     });
   } else {
-    //alert("no se encontro usuario logueado...");
     console.log("no se encontro usuario logueado...");
-    //almacenarDatosLocalStorage();
   }
 }
 
@@ -73,7 +79,7 @@ btnEntrar.addEventListener("click", () => {
   const emailLogin = document.getElementById("emailLogin").value;
   const passLogin = document.getElementById("passLogin").value;
   listaUsuarios = JSON.parse(localStorage.getItem("listaUsuarios"));
-  console.log("mandando..." + email + "-" + passLogin + "---" + recordarDatos);
+
   user.iniciarSesion(emailLogin, passLogin, recordarDatos, ...listaUsuarios);
 });
 
@@ -99,7 +105,7 @@ btnRecorarDatos.addEventListener("click", () => {
 
 btnRegistrarme.addEventListener("click", () => {
   let datos = pedirDatosRegistro();
-  console.log(datos);
+
   user.registrarUsuario(datos, ...listaUsuarios);
   vaciarCampos();
 });
@@ -135,10 +141,6 @@ function pedirDatosRegistro() {
   const comida = document.getElementById("comida").value;
   const email = document.getElementById("email").value;
   const pass = document.getElementById("contra").value;
-
-  console.log("tinee may", terminos);
-  let numerosPass = false;
-  let letraPass = false;
 
   if (edad < 18) {
     console.log(edad, "menor!!!");
@@ -221,7 +223,6 @@ function fetchDatos() {
   fetch("https://jfh09.github.io/JSON_API_DB_SITIO_JS/datos.json")
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       datos = data;
     })
     .then(() => {
@@ -241,8 +242,6 @@ function localStorageDatos() {
 }
 
 function almacenarDatosLocalStorage() {
-  console.log("Se esta almacenando ....", typeof datos["listaUsuarios"]);
-  console.log("Se esta almacenando ....", datos["listaUsuarios"]);
   listaUsuarios = datos["listaUsuarios"];
   console.log(listaUsuarios);
   for (let i in datos["listaUsuarios"]) {

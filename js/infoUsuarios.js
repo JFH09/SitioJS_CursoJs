@@ -11,29 +11,6 @@ function mostrarInfoUsuarios() {
   let usuarios = JSON.parse(listaUsuarios);
   console.log(usuarios.length);
 
-  for (let i = 0; i < usuarios.length; i++) {
-    console.log(i);
-    console.log(
-      "Informacion Usuarios: " +
-        "\n Id = " +
-        usuarios[i].id +
-        "\n nombres = " +
-        usuarios[i].nombres +
-        "\n apellidos = " +
-        usuarios[i].apellidos +
-        "\n edad = " +
-        usuarios[i].edad +
-        "\n comida = " +
-        usuarios[i].comida +
-        "\n telefono = " +
-        usuarios[i].pelicula +
-        "\n alcohol = " +
-        usuarios[i].alcohol +
-        "\n img = " +
-        usuarios[i].img
-    );
-  }
-
   const seccionUsuarios = document.getElementById("seccionUsuarios");
 
   for (let i = 0; i < usuarios.length; i++) {
@@ -206,12 +183,10 @@ function editarUsuario(campo, posicionUsuario) {
     console.log(usuarioAlmacenado.email, " / " + infoUsuario.email);
     if (usuarioAlmacenado.email == infoUsuario.email) {
       //Dejar el aler de abajo...
-      // alert(
-      //   "Va a  modificar un usuario almacenado y se tendra que modificar el usuario almacenado..."
-      // );
+      console.log(
+        "Va a  modificar un usuario almacenado y se tendra que modificar el usuario almacenado..."
+      );
       cerrarSesion = true;
-    } else {
-      // alert("no esta modificando a un usuario almacenado");
     }
   } else {
     console.log("no hay un usuario almacenado");
@@ -220,7 +195,7 @@ function editarUsuario(campo, posicionUsuario) {
   usuarioAlmacenado;
   switch (campo) {
     case "id":
-      console.log("se va a editar un usuario en el campo ", campo);
+      //console.log("se va a editar un usuario en el campo ", campo);
       Swal.fire({
         title: "Editando campo " + campo + " : " + infoUsuario.id,
         input: "text",
@@ -246,7 +221,6 @@ function editarUsuario(campo, posicionUsuario) {
               title: ` se guardo correctamente(?)`,
               icon: "success",
               showConfirmButton: false,
-              //  imageUrl: result.value.avatar_url,
             });
             setTimeout(() => {
               window.location.reload();
@@ -256,7 +230,7 @@ function editarUsuario(campo, posicionUsuario) {
         .then(() => {});
       break;
     case "nombres":
-      console.log("se va a editar un usuario en el campo ", campo);
+      //console.log("se va a editar un usuario en el campo ", campo);
       Swal.fire({
         title: "Editando campo " + campo + " : " + infoUsuario.nombres,
         input: "text",
@@ -281,7 +255,6 @@ function editarUsuario(campo, posicionUsuario) {
             title: ` se guardo correctamente(?)`,
             icon: "success",
             showConfirmButton: false,
-            //  imageUrl: result.value.avatar_url,
           });
           setTimeout(() => {
             window.location.reload();
@@ -290,7 +263,7 @@ function editarUsuario(campo, posicionUsuario) {
       });
       break;
     case "apellidos":
-      console.log("se va a editar un usuario en el campo ", campo);
+      //console.log("se va a editar un usuario en el campo ", campo);
       Swal.fire({
         title: "Editando campo " + campo + " : " + infoUsuario.apellidos,
         input: "text",
@@ -315,7 +288,6 @@ function editarUsuario(campo, posicionUsuario) {
             title: ` se guardo correctamente(?)`,
             icon: "success",
             showConfirmButton: false,
-            //  imageUrl: result.value.avatar_url,
           });
           setTimeout(() => {
             window.location.reload();
@@ -324,7 +296,7 @@ function editarUsuario(campo, posicionUsuario) {
       });
       break;
     case "edad":
-      console.log("se va a editar un usuario en el campo ", campo);
+      //console.log("se va a editar un usuario en el campo ", campo);
       Swal.fire({
         title: "Editando campo " + campo + " : " + infoUsuario.edad,
         input: "text",
@@ -349,7 +321,6 @@ function editarUsuario(campo, posicionUsuario) {
             title: ` se guardo correctamente(?)`,
             icon: "success",
             showConfirmButton: false,
-            //  imageUrl: result.value.avatar_url,
           });
           setTimeout(() => {
             window.location.reload();
@@ -358,7 +329,6 @@ function editarUsuario(campo, posicionUsuario) {
       });
       break;
     case "email":
-      console.log("se va a editar un usuario en el campo ", campo);
       Swal.fire({
         title: "Editando campo " + campo + " : " + infoUsuario.email,
         input: "text",
@@ -385,17 +355,13 @@ function editarUsuario(campo, posicionUsuario) {
             title: ` se guardo correctamente(?)`,
             icon: "success",
             showConfirmButton: false,
-            //  imageUrl: result.value.avatar_url,
           });
           if (!cerrarSesion) {
-            // alert("no se tiene que cerrar sesion");
             setTimeout(() => {
               window.location.reload();
             }, "1300");
           } else {
-            // alert("se modifico el usuario almacenado!!!");
             localStorage.removeItem("usuarioAutoIni");
-            //cerrarSesion();
             let infoUsu = { email: infoUsuario.email, pass: infoUsuario.pass };
             console.log(infoUsu);
             localStorage.setItem("usuarioAutoIni", JSON.stringify(infoUsu));
@@ -407,7 +373,7 @@ function editarUsuario(campo, posicionUsuario) {
       });
       break;
     case "pelicula":
-      console.log("se va a editar un usuario en el campo ", campo);
+      //console.log("se va a editar un usuario en el campo ", campo);
       Swal.fire({
         title: "Editando campo " + campo + " : " + infoUsuario.pelicula,
         input: "text",
@@ -432,7 +398,6 @@ function editarUsuario(campo, posicionUsuario) {
             title: ` se guardo correctamente(?)`,
             icon: "success",
             showConfirmButton: false,
-            //  imageUrl: result.value.avatar_url,
           });
           setTimeout(() => {
             window.location.reload();
@@ -441,7 +406,7 @@ function editarUsuario(campo, posicionUsuario) {
       });
       break;
     case "comida":
-      console.log("se va a editar un usuario en el campo ", campo);
+      //console.log("se va a editar un usuario en el campo ", campo);
       Swal.fire({
         title: "Editando campo " + campo + " : " + infoUsuario.comida,
         input: "text",
@@ -466,7 +431,6 @@ function editarUsuario(campo, posicionUsuario) {
             title: ` se guardo correctamente(?)`,
             icon: "success",
             showConfirmButton: false,
-            //  imageUrl: result.value.avatar_url,
           });
           setTimeout(() => {
             window.location.reload();
@@ -475,7 +439,7 @@ function editarUsuario(campo, posicionUsuario) {
       });
       break;
     case "alcohol":
-      console.log("se va a editar un usuario en el campo ", campo);
+      //console.log("se va a editar un usuario en el campo ", campo);
       Swal.fire({
         title: "Editando campo " + campo + " : " + infoUsuario.alcohol,
         input: "text",
@@ -500,7 +464,6 @@ function editarUsuario(campo, posicionUsuario) {
             title: ` se guardo correctamente(?)`,
             icon: "success",
             showConfirmButton: false,
-            //  imageUrl: result.value.avatar_url,
           });
           setTimeout(() => {
             window.location.reload();
@@ -518,16 +481,14 @@ function eliminarUsuario(posicionUsuario) {
   let nuevaLista = obtenerListaUsuarios.filter(
     (usuarios) => usuarios != obtenerListaUsuarios[posicionUsuario]
   );
-  console.log("nueva lista quedo -> ", nuevaLista);
+
   localStorage.removeItem("listaUsuarios");
   localStorage.setItem("listaUsuarios", JSON.stringify(nuevaLista));
-  // alert("usuario eliminado exitosamente...");
 
   Swal.fire({
     title: ` usuario eliminado exitosamente`,
     icon: "success",
     showConfirmButton: false,
-    //  imageUrl: result.value.avatar_url,
   });
   setTimeout(() => {
     window.location.reload();
@@ -536,8 +497,10 @@ function eliminarUsuario(posicionUsuario) {
 let listaPeliculas;
 let cantidadStremingAPP = [];
 function consultarInfoPelicula(peliculaUsu, email) {
-  //console.log("consultandooo -> ", peliculaUsu);
-  let ver = "";
+  /*
+    Si se terminan las peticiones para las peliculas, descomentar la lineas de options y comentar 
+    las que se estaban usando... !!!!!!!
+  */
 
   // const options = {
   //   method: "GET",
@@ -568,19 +531,15 @@ function consultarInfoPelicula(peliculaUsu, email) {
       let contenedorTitulo = document.getElementById("titlePelicula" + email); //padre
 
       for (let z = 0; z < listaPeliculas.length; z++) {
-        console.log(listaPeliculas[z]);
-        console.log(listaPeliculas[z].title);
-
         let streamingAPP = listaPeliculas[z].streamingInfo.us;
         let cantidadStremingAPP = [];
         console.log(listaPeliculas[z].streamingInfo.us);
         for (let key in streamingAPP) {
           cantidadStremingAPP.push(key);
-          console.log(key); // <- se puede ver en esas plataformas
         }
         let palabra;
         let listaTipo = [];
-        console.log("cantidadStremingAPP", cantidadStremingAPP);
+
         for (let i = 0; i < cantidadStremingAPP.length; i++) {
           palabra = cantidadStremingAPP[i];
           listaTipo.push(listaPeliculas[z].streamingInfo.us[palabra]);
@@ -590,19 +549,13 @@ function consultarInfoPelicula(peliculaUsu, email) {
             let tipo;
             tipo = listaPeliculas[z].streamingInfo.us[palabra][k].type;
             precio = listaTipo[i][k].price.formatted;
-            if (precio != null) {
-              console.log(palabra, " - ", tipo, " precio ", precio);
-            } else {
-              console.log(palabra, " - ", tipo, " precio ", "0.00");
-            }
 
             tituloSub.innerHTML = palabra + " - " + tipo + " precio " + precio;
             contenedorTitulo.appendChild(tituloSub);
           }
           tipo = "";
         }
-        console.log(listaTipo.length);
-        console.log(listaTipo[0][0].price.formatted);
+
         streamingAPP;
         cantidadStremingAPP = [];
         palabra;
@@ -614,19 +567,11 @@ function consultarInfoPelicula(peliculaUsu, email) {
   return " : ";
 }
 
-// function mostrarPeliculas() {
-//   console.log(listaPeliculas["result"]);
-//   let listaPeli = listaPeliculas["result"];
-//   let infoUsuario = document.getElementById("peli");
-//   console.log(listaPeli.title);
-// }
 let listaRecetas;
 let recetas = "";
 
 function consultarInfoComida(comidaUsu, email) {
   console.log("consultandooo -> ", comidaUsu);
-
-  let receta = "a";
 
   const options = {
     method: "GET",
@@ -642,7 +587,6 @@ function consultarInfoComida(comidaUsu, email) {
   )
     .then((response) => response.json())
     .then((response) => {
-      //console.log(response);
       listaRecetas = response;
       let contenedorTitulo = document.getElementById("titleFood" + email); //padre
 
@@ -657,7 +601,6 @@ function consultarInfoComida(comidaUsu, email) {
         contenedorTitulo.appendChild(parrafoIngredients);
         contenedorTitulo.appendChild(parrafoInstructions);
       }
-      //console.log(listaRecetas);
     })
     .catch((err) => console.error(err));
 
@@ -666,8 +609,6 @@ function consultarInfoComida(comidaUsu, email) {
 let listaLicores;
 function consultarInfoLicor(licorUsu, email) {
   console.log("consultandooo -> ", licorUsu);
-
-  let receta = "a";
 
   const options = {
     method: "GET",
@@ -680,22 +621,17 @@ function consultarInfoLicor(licorUsu, email) {
   fetch("https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + licorUsu)
     .then((response) => response.json())
     .then((response) => {
-      console.log(response);
       listaLicores = response["drinks"];
       let contenedorTitulo = document.getElementById("titleLicor" + email);
-      // padre;
 
       for (let i = 0; i <= listaLicores.length; i++) {
         let tituloSub = document.createElement("h5");
         let imgLicor = document.createElement("img");
-
         tituloSub.innerHTML = listaLicores[i].strDrink;
         imgLicor.innerHTML = listaLicores[i].strDrinkThumb;
-
         contenedorTitulo.appendChild(tituloSub);
         contenedorTitulo.appendChild(imgLicor);
       }
-      console.log(listaLicores);
     })
     .catch((err) => console.error(err));
 

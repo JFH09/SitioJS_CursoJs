@@ -91,45 +91,4 @@ class Usuario {
     });
     console.log(listaUsuarios);
   }
-
-  // imprimirListaUsuarios(...listaUsuarios) {
-  //   listaUsuarios.map((x) =>
-  //     alert(
-  //       x.id +
-  //         " " +
-  //         x.pass +
-  //         " " +
-  //         x.nombres +
-  //         " " +
-  //         x.apellidos +
-  //         " " +
-  //         x.edad +
-  //         " " +
-  //         x.email +
-  //         " " +
-  //         x.pelicula +
-  //         " " +
-  //         x.comida +
-  //         " " +
-  //         x.alcohol +
-  //         " " +
-  //         x.img
-  //     )
-  //   );
-  // }
-
-  // traerUsuarios() {
-  //   let listaUsuarios = "";
-  //   fetch("https://jfh09.github.io/JSON_API_DB_SITIO_JS/datos.json")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       for (let i in data) {
-  //         console.log(data[i]);
-  //         listaUsuarios = data[i];
-  //       }
-  //     })
-  //     .then(() => {
-  //       this.imprimirListaUsuarios(...this.listaUsuarios);
-  //     });
-  // }
 }
