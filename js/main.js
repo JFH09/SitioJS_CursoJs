@@ -67,6 +67,7 @@ let recordarDatos = false;
 const btnRegistrarme = document.querySelector("#btnRegistrarme");
 const btnEntrar = document.querySelector("#btnIniciarSesion");
 const btnRecorarDatos = document.getElementById("recordarDatos");
+const terminos = document.getElementById("terminos");
 
 btnEntrar.addEventListener("click", () => {
   const emailLogin = document.getElementById("emailLogin").value;
@@ -99,55 +100,115 @@ btnRecorarDatos.addEventListener("click", () => {
 btnRegistrarme.addEventListener("click", () => {
   let datos = pedirDatosRegistro();
   console.log(datos);
-
-  // listaUsuarios.push({
-  //   id: datos.id,
-  //   pass: datos.pass,
-  //   nombres: datos.nombres,
-  //   apellidos: datos.apellidos,
-  //   edad: parseInt(datos.edad),
-  //   email: datos.email,
-  //   pelicula: datos.pelicula,
-  //   comida: datos.comida,
-  //   alcohol: datos.alcohol,
-  //   img: datos.img,
-  // });
-
   user.registrarUsuario(datos, ...listaUsuarios);
   vaciarCampos();
 });
 
+let terminosCond;
+terminos.addEventListener("click", () => {
+  if (terminos.checked) {
+    terminosCond = true;
+    Swal.fire({
+      title: "Se cuidaran tus datos!",
+      text: "La proxima vez que ingreses se iniciara sesion automaticamente :)",
+      icon: "info",
+      confirmButtonText: "Cool",
+    });
+  } else {
+    terminosCond = false;
+    Swal.fire({
+      title: "Si no aceptas los terminos y condiciones no puedes avanzar!",
+      text: ":)",
+      icon: "info",
+      confirmButtonText: "De acuerdo",
+    });
+  }
+});
 function pedirDatosRegistro() {
   let datos = {};
 
   const nombres = document.getElementById("nombres").value;
   const apellidos = document.getElementById("apellidos").value;
-  // const fotoPerfil FALRA AVERIGUAR COMO CAPTURAR LA IMAGEN....
   const edad = document.getElementById("edad").value;
   const alcohol = document.getElementById("alcohol").value;
   const pelicula = document.getElementById("pelicula").value;
   const comida = document.getElementById("comida").value;
   const email = document.getElementById("email").value;
   const pass = document.getElementById("contra").value;
-  datos = {
-    id: nombres + edad,
-    pass: pass,
-    nombres: nombres,
-    apellidos: apellidos,
-    edad: edad,
-    email: email,
-    pelicula: pelicula,
-    comida: comida,
-    alcohol: alcohol,
-    img: "https://cdn-icons-png.flaticon.com/512/6073/6073874.png",
-  };
-  return datos;
+
+  console.log("tinee may", terminos);
+  let numerosPass = false;
+  let letraPass = false;
+
+  if (edad < 18) {
+    console.log(edad, "menor!!!");
+    Swal.fire({
+      title: "Eres menor de 18",
+      text: "No puedes acceder a la aplicación, vuelve cuando cumplas 18 :) ",
+      icon: "warning",
+      confirmButtonText: "Cool",
+    });
+  } else if (!validarContra(pass)) {
+    Swal.fire({
+      title: "Condiciones clave!!!",
+      text: "La contraseña debe tener mas de 8 caracteres, una mayuscula, un caracter especial y un número :) ",
+      icon: "warning",
+      confirmButtonText: "Cool",
+    });
+  } else if (
+    nombres == "" ||
+    apellidos == "" ||
+    edad == "" ||
+    alcohol == "" ||
+    pelicula == "" ||
+    comida == "" ||
+    email == "" ||
+    pass == ""
+  ) {
+    Swal.fire({
+      title: "No puedes dejar campos vacios!!!",
+      text: "Por favor llena todos los campos :) ",
+      icon: "warning",
+      confirmButtonText: "Cool",
+    });
+  } else if (!terminosCond) {
+    Swal.fire({
+      title: "Debes aceptar los terminos y condiciones !!!",
+      text: " :) ",
+      icon: "warning",
+      confirmButtonText: "Cool",
+    });
+  } else if (!email.includes("@")) {
+    Swal.fire({
+      title: "Debes ingresar un dominio !!!",
+      text: "gmail / hotmail / outlook / icloud / yahoo :) ",
+      icon: "warning",
+      confirmButtonText: "Cool",
+    });
+  } else {
+    datos = {
+      id: nombres + edad,
+      pass: pass,
+      nombres: nombres,
+      apellidos: apellidos,
+      edad: edad,
+      email: email,
+      pelicula: pelicula,
+      comida: comida,
+      alcohol: alcohol,
+      img: "https://cdn-icons-png.flaticon.com/512/6073/6073874.png",
+    };
+    return datos;
+  }
 }
 
+function validarContra(pass) {
+  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  return regex.test(pass);
+}
 function vaciarCampos() {
   document.getElementById("nombres").value = "";
   document.getElementById("apellidos").value = "";
-  // const fotoPerfil FALRA AVERIGUAR COMO CAPTURAR LA IMAGEN....
   document.getElementById("edad").value = "";
   document.getElementById("alcohol").value = "";
   document.getElementById("pelicula").value = "";

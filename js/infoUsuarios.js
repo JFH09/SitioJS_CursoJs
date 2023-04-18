@@ -4,15 +4,6 @@ btnCerrarSesion.addEventListener("click", () => {
   cerrarSesion();
 });
 
-// btnEditar.addEventListener("click", () => {
-//   alert("Vamos a editar!!");
-// });
-//let listaUsuarios = "";
-/*En esta parte se renderizan los usuarios, pero en el estado actual si 
-  se registra el usuario no se evidenciara renderizado ya que se empezo a cambiar de
-  localStorage a json, se puede ver que en el localStorage se guarda la info, pero como
-  se empezo a migrar el codigo se volveria confuso si dejo ambas funcionalidades...
-*/
 let listaUsuarios = localStorage.getItem("listaUsuarios");
 
 function mostrarInfoUsuarios() {
@@ -134,7 +125,11 @@ function mostrarInfoUsuarios() {
             <div class="collapse multi-collapse" id="multiCollapseExample2">
               <div id=peli" class="card card-body bg-secondary-subtle">
                 Tu pelicula favorita la puedes ver en:
-                ${consultarInfoPelicula(usuarios[i].pelicula)}
+                ${consultarInfoPelicula(
+                  usuarios[i].pelicula,
+                  usuarios[i].email
+                )}
+                <div id="titlePelicula${usuarios[i].email}"></div>
               </div>
             </div>
 
@@ -143,7 +138,7 @@ function mostrarInfoUsuarios() {
             <div class="card card-body bg-success-subtle">
               El coctel que te podria gustar de acuerdo a tu gusto podria ser...
               
-              
+            
               ${consultarInfoLicor(usuarios[i].alcohol, usuarios[i].email)}
               <div id="titleLicor${usuarios[i].email}"></div>
 
@@ -207,19 +202,19 @@ function editarUsuario(campo, posicionUsuario) {
   console.log(usuarioAlmacenado);
   let cerrarSesion = false;
   if (usuarioAlmacenado != null) {
-    alert("hay un usuario almacenado...");
+    console.log("hay un usuario almacenado...");
     console.log(usuarioAlmacenado.email, " / " + infoUsuario.email);
     if (usuarioAlmacenado.email == infoUsuario.email) {
       //Dejar el aler de abajo...
-      alert(
-        "Va a  modificar un usuario almacenado y se tendra que modificar el usuario almacenado..."
-      );
+      // alert(
+      //   "Va a  modificar un usuario almacenado y se tendra que modificar el usuario almacenado..."
+      // );
       cerrarSesion = true;
     } else {
-      alert("no esta modificando a un usuario almacenado");
+      // alert("no esta modificando a un usuario almacenado");
     }
   } else {
-    alert("no hay un usuario almacenado");
+    console.log("no hay un usuario almacenado");
   }
   infoUsuario.email;
   usuarioAlmacenado;
@@ -393,12 +388,12 @@ function editarUsuario(campo, posicionUsuario) {
             //  imageUrl: result.value.avatar_url,
           });
           if (!cerrarSesion) {
-            alert("no se tiene que cerrar sesion");
+            // alert("no se tiene que cerrar sesion");
             setTimeout(() => {
               window.location.reload();
             }, "1300");
           } else {
-            alert("se modifico el usuario almacenado!!!");
+            // alert("se modifico el usuario almacenado!!!");
             localStorage.removeItem("usuarioAutoIni");
             //cerrarSesion();
             let infoUsu = { email: infoUsuario.email, pass: infoUsuario.pass };
@@ -538,15 +533,24 @@ function eliminarUsuario(posicionUsuario) {
     window.location.reload();
   }, "1300");
 }
-let listaPeliculas = "";
-function consultarInfoPelicula(peliculaUsu) {
+let listaPeliculas;
+let cantidadStremingAPP = [];
+function consultarInfoPelicula(peliculaUsu, email) {
   //console.log("consultandooo -> ", peliculaUsu);
-  /*let ver = "";
+  let ver = "";
+
+  // const options = {
+  //   method: "GET",
+  //   headers: {
+  //     "X-RapidAPI-Key": "6668e552e5msh3d407443f84287cp196fd4jsnde73b4ddb5fb",
+  //     "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com",
+  //   },
+  // };
 
   const options = {
     method: "GET",
     headers: {
-      "X-RapidAPI-Key": "6668e552e5msh3d407443f84287cp196fd4jsnde73b4ddb5fb",
+      "X-RapidAPI-Key": "2fe12c38f3mshc1c1fe0c08cf54bp163238jsn24eb0ed4215a",
       "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com",
     },
   };
@@ -559,27 +563,63 @@ function consultarInfoPelicula(peliculaUsu) {
   )
     .then((response) => response.json())
     .then((response) => {
-      // for (let i in response) {
-      //console.log(response[0].title);
-      console.log(response);
-      listaPeliculas = response;
-      console.log(listaPeliculas);
-      // }
-    })
-    .then(() => {
-      ver = mostrarPeliculas(peliculaUsu);
+      listaPeliculas = response["result"];
+
+      let contenedorTitulo = document.getElementById("titlePelicula" + email); //padre
+
+      for (let z = 0; z < listaPeliculas.length; z++) {
+        console.log(listaPeliculas[z]);
+        console.log(listaPeliculas[z].title);
+
+        let streamingAPP = listaPeliculas[z].streamingInfo.us;
+        let cantidadStremingAPP = [];
+        console.log(listaPeliculas[z].streamingInfo.us);
+        for (let key in streamingAPP) {
+          cantidadStremingAPP.push(key);
+          console.log(key); // <- se puede ver en esas plataformas
+        }
+        let palabra;
+        let listaTipo = [];
+        console.log("cantidadStremingAPP", cantidadStremingAPP);
+        for (let i = 0; i < cantidadStremingAPP.length; i++) {
+          palabra = cantidadStremingAPP[i];
+          listaTipo.push(listaPeliculas[z].streamingInfo.us[palabra]);
+
+          let tituloSub = document.createElement("h5");
+          for (let k = 0; k <= listaTipo.length; k++) {
+            let tipo;
+            tipo = listaPeliculas[z].streamingInfo.us[palabra][k].type;
+            precio = listaTipo[i][k].price.formatted;
+            if (precio != null) {
+              console.log(palabra, " - ", tipo, " precio ", precio);
+            } else {
+              console.log(palabra, " - ", tipo, " precio ", "0.00");
+            }
+
+            tituloSub.innerHTML = palabra + " - " + tipo + " precio " + precio;
+            contenedorTitulo.appendChild(tituloSub);
+          }
+          tipo = "";
+        }
+        console.log(listaTipo.length);
+        console.log(listaTipo[0][0].price.formatted);
+        streamingAPP;
+        cantidadStremingAPP = [];
+        palabra;
+        listaTipo = [];
+      }
     })
     .catch((err) => console.error(err));
-*/
-  return "FUNCIONAAAAA!!****";
+
+  return " : ";
 }
 
-function mostrarPeliculas() {
-  console.log(listaPeliculas["result"]);
-  let listaPeli = listaPeliculas["result"];
-  let infoUsuario = document.getElementById("peli");
-  console.log(listaPeli.title);
-}
+// function mostrarPeliculas() {
+//   console.log(listaPeliculas["result"]);
+//   let listaPeli = listaPeliculas["result"];
+//   let infoUsuario = document.getElementById("peli");
+//   console.log(listaPeli.title);
+// }
 let listaRecetas;
 let recetas = "";
 
@@ -637,25 +677,25 @@ function consultarInfoLicor(licorUsu, email) {
     },
   };
 
-  fetch("https://api.api-ninjas.com/v1/cocktail?query=" + licorUsu, options)
+  fetch("https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + licorUsu)
     .then((response) => response.json())
     .then((response) => {
       console.log(response);
-      /*  listaLicores = response;
-      let contenedorTitulo = document.getElementById("titleLicor" + email); //padre
+      listaLicores = response["drinks"];
+      let contenedorTitulo = document.getElementById("titleLicor" + email);
+      // padre;
 
-      for (let i = 0; i <= listaRecetas.length; i++) {
+      for (let i = 0; i <= listaLicores.length; i++) {
         let tituloSub = document.createElement("h5");
-        let parrafoIngredients = document.createElement("li");
-        let parrafoInstructions = document.createElement("p");
-        tituloSub.innerHTML = listaRecetas[i].title;
-        parrafoIngredients.innerHTML = listaRecetas[i].ingredients;
-        parrafoInstructions.innerHTML = listaRecetas[i].instructions;
+        let imgLicor = document.createElement("img");
+
+        tituloSub.innerHTML = listaLicores[i].strDrink;
+        imgLicor.innerHTML = listaLicores[i].strDrinkThumb;
+
         contenedorTitulo.appendChild(tituloSub);
-        contenedorTitulo.appendChild(parrafoIngredients);
-        contenedorTitulo.appendChild(parrafoInstructions);
-      }*/
-      //console.log(listaRecetas);
+        contenedorTitulo.appendChild(imgLicor);
+      }
+      console.log(listaLicores);
     })
     .catch((err) => console.error(err));
 
